@@ -5,6 +5,11 @@
     {
       "dir": "src",
       "subdirs": true
+    },
+    {
+      "dir": "tests",
+      "subdirs": true,
+      "type": "dev"
     }
   ],
   "package-specs": {
@@ -12,15 +17,7 @@
     "in-source": true
   },
   "suffix": ".res.js",
-  "bs-dependencies": ["@rescript/core"],
-  "gentypeconfig": {
-    "language": "typescript",
-    "shims": {},
-    "debug": {
-      "all": false,
-      "basic": false
-    }
-  },
+  "dependencies": ["@rescript/core"],
   "warnings": {
     "error": "+101+5"
   },

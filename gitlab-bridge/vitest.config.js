@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-// SPDX-FileCopyrightText: 2024 hyperpolymath
+// SPDX-License-Identifier: PMPL-1.0-or-later
+// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell
 
 import { defineConfig } from "vitest/config";
 
@@ -7,12 +7,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    include: ["tests/**/*.test.ts"],
+    include: ["tests/**/*Test.res.js"],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
-      include: ["src/**/*.ts"],
-      exclude: ["src/**/*.d.ts", "src/**/index.ts"],
+      include: ["src/**/*.res.js"],
+      exclude: ["src/**/Main.res.js"],
       thresholds: {
         global: {
           branches: 80,
@@ -22,6 +22,6 @@ export default defineConfig({
         },
       },
     },
-    setupFiles: ["tests/setup.ts"],
+    setupFiles: ["tests/Setup.res.js"],
   },
 });
