@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Dependabot configuration for claude-integrations
+# Covers npm (firefox-lsp, gitlab-bridge) and GitHub Actions
+
+version: 2
+updates:
+  # GitHub Actions - always include
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # npm - firefox-lsp (VS Code extension)
+  - package-ecosystem: "npm"
+    directory: "/firefox-lsp"
+    schedule:
+      interval: "weekly"
+
+  # npm - gitlab-bridge
+  - package-ecosystem: "npm"
+    directory: "/gitlab-bridge"
+    schedule:
+      interval: "weekly"
