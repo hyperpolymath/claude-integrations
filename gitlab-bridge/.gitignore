@@ -38,7 +38,7 @@ erl_crash.dump
 /Manifest.toml
 
 # ReScript
-/lib/bs/
+/lib/
 /.bsb.lock
 
 # Python (SaltStack only)
@@ -79,6 +79,12 @@ htmlcov/
 *.bak
 target/
 node_modules/
+# package-lock.json: deliberately untracked. The hyperpolymath language
+# policy bans npm; the minimal package.json declares only the ReScript
+# compiler toolchain (rescript + @rescript/core), so a tracked lockfile
+# would only attract Dependabot churn for two packages without buying
+# reproducibility — runtime deps live in deno.json.
+package-lock.json
 _build/
 deps/
 .elixir_ls/

@@ -32,7 +32,9 @@ The Claude GitLab Bridge enables:
 
 ### Code Style
 
-- Use TypeScript for type safety
+- Use ReScript for type safety (TypeScript is banned per the
+  hyperpolymath language policy in `.claude/CLAUDE.md`).
+- Run on Deno (Node.js / npm / Bun are banned).
 - Follow functional programming principles where appropriate
 - Write comprehensive error handling
 - Include detailed logging for debugging
@@ -40,7 +42,8 @@ The Claude GitLab Bridge enables:
 
 ### Testing
 
-- Write unit tests for all core functionality
+- Write unit tests for all core functionality (Deno's `deno test`
+  runner over the compiled `.res.js` modules)
 - Include integration tests for GitLab API interactions
 - Test webhook handling thoroughly
 - Mock external API calls in tests
@@ -137,18 +140,21 @@ Integrates with Anthropic's Claude API for:
 
 ## Dependencies
 
+Pinned in `deno.json`'s `imports` map (no `package.json`).
+
 ### Core Dependencies
-- Node.js runtime
-- TypeScript for type safety
-- Express.js for HTTP server (if web-based)
-- Anthropic SDK for Claude integration
-- GitLab SDK or axios for GitLab API
+- Deno runtime
+- ReScript compiler (in-source, emits `.res.js`)
+- `@rescript/core` standard library
+- `@anthropic-ai/sdk` for Claude integration
+- `express` for HTTP server (Deno-compatible npm specifier)
+- `zod` for runtime schema validation
+- `dotenv` for environment loading
 
 ### Development Dependencies
-- Jest or Vitest for testing
-- ESLint for linting
-- Prettier for code formatting
-- TypeScript compiler
+- Deno's built-in `deno fmt` / `deno lint` / `deno test`
+- ReScript bindings under `src/bindings/` for any external surface
+  the compiler doesn't ship with
 
 ## Resources
 

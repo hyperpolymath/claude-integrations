@@ -76,9 +76,13 @@ claude-gitlab-bridge/
 
 ### Dependencies
 
-- Runtime: Node.js 18+ / Deno 1.40+
-- Languages: ReScript (primary), TypeScript (legacy)
-- Packages: anthropic-sdk, gitlab-api client
+- Runtime: Deno 1.40+ (Node.js / npm / Bun are banned per the
+  hyperpolymath language policy)
+- Languages: ReScript (sole — TypeScript is banned and was retired
+  in the 2.0.0 migration; see `MIGRATION.adoc`)
+- Packages: pinned in `deno.json`'s `imports` map
+  (`@anthropic-ai/sdk`, `express`, `zod`, `dotenv`,
+  `rescript`, `@rescript/core`)
 - Optional: Redis (for caching)
 
 ## State Management
@@ -143,9 +147,10 @@ The project integrates with:
 
 ### Language Policy (per RSR)
 
-- **Primary**: ReScript for new code
-- **Fallback**: TypeScript for legacy compatibility
-- **Banned**: Python, Ruby, Perl (per RSR language policy)
+- **Sole language**: ReScript (TypeScript is banned per the
+  hyperpolymath language policy)
+- **Sole runtime**: Deno (Node.js / npm / Bun are banned)
+- **Banned**: TypeScript, Python, Ruby, Perl, Go, Java, Kotlin, Swift
 
 ### Code Style
 
@@ -156,21 +161,21 @@ The project integrates with:
 
 ### Testing Requirements
 
-- Unit tests: `vitest tests/unit/`
-- Integration tests: `vitest tests/integration/`
-- E2E tests: `vitest tests/e2e/`
+- Unit tests: `deno task test` (covers `tests/unit/`)
+- Integration tests: `deno task test` (covers `tests/integration/`)
+- E2E tests: `deno task test` (covers `tests/e2e/`)
 - Coverage target: 80%
 - Mock mode available for offline testing
 
 ## Deployment Options
 
-1. **Standalone**: `deno run --allow-net --allow-env src/main.ts`
-2. **Docker**: `docker run claude-gitlab-bridge`
+1. **Standalone**: `deno run --allow-net --allow-env src/Main.res.js`
+2. **Container**: see `Containerfile` (Podman; banned: Docker)
 3. **Systemd Service**: Available for production deployments
 
 ## Next Steps
 
-1. Define TypeScript/ReScript interfaces for core types
+1. Define ReScript interfaces for core types
 2. Implement GitLab API client wrapper
 3. Set up test infrastructure with mocking
 4. Implement command generation logic

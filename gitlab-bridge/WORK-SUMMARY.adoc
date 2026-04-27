@@ -228,8 +228,8 @@ claude-gitlab-bridge/
 ├── tests/                    # Test files (to be added)
 ├── docs/                     # Documentation
 ├── rescript.json             # ReScript config
-├── deno.json                 # Deno config
-├── package.json              # npm dependencies
+├── deno.json                 # Deno config (package manifest;
+│                             #   package.json removed — npm is banned)
 ├── README.adoc               # Main documentation
 ├── MIGRATION.adoc            # Migration guide
 └── WORK-SUMMARY.adoc         # This file
