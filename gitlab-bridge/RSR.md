@@ -19,7 +19,7 @@ Claude GitLab Bridge achieves **RSR GOLD** compliance, meeting or exceeding requ
 | 1. Repository Metadata & Standards | ✅ GOLD | 100% | All required files present |
 | 2. Documentation Quality | ✅ GOLD | 100% | Comprehensive docs in AsciiDoc |
 | 3. Development Infrastructure | ✅ GOLD | 100% | Complete dev tooling |
-| 4. Architecture & Code Quality | ✅ GOLD | 95% | TypeScript with strict typing |
+| 4. Architecture & Code Quality | ✅ GOLD | 95% | ReScript with strict typing on Deno |
 | 5. Testing & Quality Assurance | ✅ GOLD | 100% | Comprehensive test suite |
 | 6. Build & Release | ✅ GOLD | 100% | Automated builds |
 | 7. Security | ✅ GOLD | 100% | Security-first approach |
@@ -47,8 +47,10 @@ All required files are present and properly formatted:
 - ✅ `REVERSIBILITY.md` - Safe experimentation philosophy
 - ✅ `.gitattributes` - Git attributes for line endings and file types
 - ✅ `.gitignore` - Ignore patterns
-- ✅ `package.json` - Node.js project metadata
-- ✅ `justfile` - Build automation recipes
+- ✅ `deno.json` - Deno runtime config + import map (the package
+      manifest; `package.json` is banned)
+- ✅ `rescript.json` - ReScript compiler config
+- ✅ `Justfile` - Build automation recipes
 
 ### SPDX Compliance ✅
 
@@ -115,8 +117,9 @@ RSR requires AsciiDoc format for formal documentation:
 
 ### Build Automation ✅
 
-- ✅ `justfile` with 30+ recipes for all common tasks
-- ✅ `package.json` with comprehensive npm scripts
+- ✅ `Justfile` with 30+ recipes for all common tasks
+- ✅ `deno.json` `tasks` block (the Deno equivalent of package.json
+      scripts; package.json is banned)
 - ✅ Build, test, lint, format commands
 - ✅ Development, production, and CI modes
 
@@ -140,21 +143,23 @@ RSR requires AsciiDoc format for formal documentation:
 
 ### Language Choice ✅
 
-- ✅ TypeScript for type safety
-- ✅ Strict compiler settings
-- ✅ Explicit type annotations
-- ✅ No `any` types
+- ✅ ReScript for type safety (TypeScript is banned per the
+     hyperpolymath language policy in `.claude/CLAUDE.md`)
+- ✅ Strict compiler settings (`rescript.json` `warnings.error`)
+- ✅ Explicit type annotations / sound inference
+- ✅ No banned-language artefacts (no `.ts`, no `package.json`)
 
 ### Code Organization ✅
 
-Planned structure:
+Actual structure:
 ```
 src/
-├── api/          # API routes
-├── services/     # Business logic
-├── models/       # Data models
-├── utils/        # Utilities
-└── middleware/   # Express middleware
+├── auth/         # Authentication, rate-limiting, webhook validation
+├── bindings/     # ReScript bindings (Anthropic, Express, Crypto, …)
+├── config/       # Multi-repo configuration
+├── forges/       # Forge adapters (GitLab, GitHub, Gitea, SourceHut)
+├── services/     # Business logic (e.g. MR review)
+└── templates/    # Prompt templates
 ```
 
 ### Quality Standards ✅
@@ -171,10 +176,9 @@ src/
 
 ### Test Framework ✅
 
-- ✅ Vitest configured
-- ✅ Coverage reporting with `@vitest/coverage-v8`
-- ✅ UI mode with `@vitest/ui`
-- ✅ Watch mode available
+- ✅ `deno test` runner over the in-source `*.res.js` output
+- ✅ Coverage reporting with `deno test --coverage`
+- ✅ Watch mode via `deno test --watch`
 
 ### Test Coverage Targets ✅
 
@@ -184,10 +188,11 @@ src/
 
 ### Linting & Formatting ✅
 
-- ✅ ESLint configured with TypeScript support
-- ✅ Prettier for code formatting
+- ✅ `deno lint` (no ESLint — npm is banned)
+- ✅ `deno fmt` for formatting (no Prettier)
+- ✅ ReScript compiler enforces strictness via `bsc-flags`
 - ✅ Pre-commit hooks enforce standards
-- ✅ `format`, `lint`, `lint:fix` commands available
+- ✅ `format`, `lint` recipes available in the `Justfile`
 
 ---
 
@@ -195,8 +200,9 @@ src/
 
 ### Build System ✅
 
-- ✅ TypeScript compilation
-- ✅ Source maps for debugging
+- ✅ ReScript compilation (`rescript build`) — emits `*.res.js`
+     in-source per `rescript.json`'s `package-specs`
+- ✅ Deno consumes the emitted JS directly; no bundler step
 - ✅ Development and production builds
 - ✅ `clean`, `build`, `clean-all` commands
 
@@ -235,13 +241,13 @@ Comprehensive build automation:
 - ✅ Environment variables for sensitive data
 - ✅ Secure token storage
 - ✅ Input validation and sanitization
-- ✅ Dependency auditing with `npm audit`
+- ✅ Dependency review via `deno.json` import-map pinning
 - ✅ Pre-commit hook checks for sensitive data
 
 ### Vulnerability Management ✅
 
 - ✅ GitHub Security Advisories enabled
-- ✅ `npm audit` in CI/CD
+- ✅ Pinned `npm:` specifiers in `deno.json` (semver-bounded)
 - ✅ Regular dependency updates
 - ✅ Security-first code review
 
@@ -394,10 +400,10 @@ Run compliance validation:
 just validate
 
 # Individual checks
-just lint          # Code quality
-just test          # Test suite
-just type-check    # TypeScript types
-just format-check  # Code formatting
+just lint          # Code quality (deno lint)
+just test          # Test suite (deno test)
+just check         # Type-check the compiled ReScript output
+just format-check  # Code formatting (deno fmt --check)
 ```
 
 ### Manual Verification
@@ -473,7 +479,8 @@ claude-gitlab-bridge/
 ├── RSR.md                                # This file
 ├── .gitattributes                        # Git attributes
 ├── .gitignore                            # Git ignore patterns
-├── package.json                          # Node.js metadata
+├── deno.json                             # Deno runtime config + import map
+├── rescript.json                         # ReScript compiler config
 ├── Justfile                              # Build automation
 ├── .well-known/
 │   ├── security.txt                      # RFC 9116

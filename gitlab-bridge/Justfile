@@ -1,80 +1,69 @@
-# Claude GitLab Bridge - Build Automation
-# https://github.com/casey/just
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Claude GitLab Bridge — build automation
+#
+# Stack: ReScript (sources) + Deno (runtime + task runner). All recipes
+# delegate to `deno task <name>` (see deno.json) or `rescript ...`.
+# No npm / Node — see hyperpolymath language policy.
 
-# Default recipe (list all recipes)
+# Default — list all recipes.
 default:
     @just --list
 
 # === Development ===
 
-# Install dependencies
-install:
-    npm install
-
-# Build TypeScript sources
+# Build ReScript sources (emits *.res.js next to *.res, in-source).
 build:
-    npm run build
+    rescript build
 
-# Run in development mode
+# Watch + run dev server (deno task dev → src/Main.res.js).
 dev:
-    npm run dev
+    deno task dev
 
-# Clean build artifacts
+# Clean ReScript build artefacts.
 clean:
-    npm run clean
-    rm -rf node_modules/.cache
-    rm -rf .turbo
+    rescript clean
 
-# Full clean (includes node_modules)
+# Full clean.
 clean-all: clean
-    rm -rf node_modules/
-    rm -f package-lock.json
+    rm -rf coverage/
 
 # === Testing ===
 
-# Run all tests
+# Run all tests (Deno test runner over compiled *.res.js).
 test:
-    npm test
+    deno task test
 
-# Run tests in watch mode
+# Run tests in watch mode.
 test-watch:
-    npm run test:watch
+    deno task test:watch
 
-# Run tests with UI
-test-ui:
-    npm run test:ui
-
-# Generate coverage report
+# Generate coverage report.
 test-coverage:
-    npm run test:coverage
-    @echo "Coverage report: coverage/index.html"
+    deno task test:coverage
+    @echo "Coverage report: coverage/"
 
 # === Quality ===
 
-# Run linter
+# Lint sources (Deno's built-in linter).
 lint:
-    npm run lint
+    deno task lint
 
-# Fix linting issues
-lint-fix:
-    npm run lint:fix
-
-# Format code with Prettier
+# Format sources.
 format:
-    npm run format
+    deno task fmt
 
-# Check formatting
+# Check formatting (CI mode — no rewrite).
 format-check:
-    npm run format:check
+    deno fmt --check src/ tests/
 
-# Type check TypeScript
-type-check:
-    npm run type-check
+# Type-check the compiled output.
+check:
+    deno task check
 
 # === Verification ===
 
-# Comprehensive RSR GOLD validation
-validate: format-check lint type-check test
+# Comprehensive RSR GOLD validation (build + test + RSR file presence).
+validate: format-check lint check test
     @echo ""
     @echo "=== RSR GOLD Compliance Validation ==="
     @echo ""
@@ -99,124 +88,103 @@ validate: format-check lint type-check test
     @test -f CONTRIBUTING.adoc || (echo "❌ Missing CONTRIBUTING.adoc" && exit 1)
     @echo "✓ All required RSR files present"
     @echo ""
+    @echo "Checking npm/TS artefacts are absent..."
+    @test ! -f package.json     || (echo "❌ package.json present (npm banned)" && exit 1)
+    @test ! -f package-lock.json || (echo "❌ package-lock.json present (npm banned)" && exit 1)
+    @test ! -f tsconfig.json    || (echo "❌ tsconfig.json present (TypeScript banned)" && exit 1)
+    @test -z "$$(find src tests -name '*.ts' 2>/dev/null)" || (echo "❌ .ts files found (banned)" && exit 1)
+    @echo "✓ No banned-language artefacts"
+    @echo ""
     @echo "✓ RSR GOLD validation complete"
 
-# Verify installation (run all checks)
-verify: format-check lint type-check test
-    @echo "✓ All verifications passed"
-
-# Pre-commit checks
-pre-commit: format lint type-check
+# Pre-commit checks.
+pre-commit: format lint check
     @echo "✓ Pre-commit checks passed"
 
-# Pre-release checks
-pre-release: clean build verify test-coverage
+# Pre-release checks.
+pre-release: clean build validate test-coverage
     @echo "✓ Ready for release"
-
-# === Development ===
-
-# Start application
-start:
-    npm start
 
 # === Documentation ===
 
-# Check documentation links
+# Check documentation links.
 docs-check:
     @echo "Checking documentation for broken links..."
     @grep -r "](.*)" *.md docs/*.md 2>/dev/null | grep -v "http" || echo "✓ No obvious broken internal links"
 
-# Count documentation lines
+# Count documentation lines.
 docs-stats:
     @echo "=== Documentation Statistics ==="
     @echo "Markdown files:"
-    @find . -name "*.md" ! -path "./node_modules/*" -exec wc -l {} + | tail -1
+    @find . -name "*.md" -exec wc -l {} + | tail -1
     @echo "AsciiDoc files:"
-    @find . -name "*.adoc" ! -path "./node_modules/*" -exec wc -l {} + | tail -1
+    @find . -name "*.adoc" -exec wc -l {} + | tail -1
 
 # === Git ===
 
-# Show git status
+# Show git status.
 status:
     git status
 
-# Show recent commits
+# Show recent commits.
 log:
     git log --oneline -10
 
-# Create new branch
+# Create new branch.
 branch name:
     git checkout -b {{name}}
 
 # === Release ===
 
-# Bump version (patch)
+# Bump version (patch) — edits rescript.json (the canonical version source).
 bump-patch:
-    @echo "Current version: $(jq -r .version package.json)"
-    @echo "Bumping patch version..."
-    npm version patch --no-git-tag-version
-    @echo "New version: $(jq -r .version package.json)"
+    @echo "Current version: $(jq -r .version rescript.json)"
+    @new=$(jq -r '.version | split(".") | [.[0], .[1], (.[2] | tonumber + 1 | tostring)] | join(".")' rescript.json) && \
+        jq --arg v "$$new" '.version = $$v' rescript.json > rescript.json.tmp && mv rescript.json.tmp rescript.json && \
+        echo "New version: $$new"
 
-# Bump version (minor)
+# Bump version (minor).
 bump-minor:
-    @echo "Current version: $(jq -r .version package.json)"
-    @echo "Bumping minor version..."
-    npm version minor --no-git-tag-version
-    @echo "New version: $(jq -r .version package.json)"
+    @echo "Current version: $(jq -r .version rescript.json)"
+    @new=$(jq -r '.version | split(".") | [.[0], (.[1] | tonumber + 1 | tostring), "0"] | join(".")' rescript.json) && \
+        jq --arg v "$$new" '.version = $$v' rescript.json > rescript.json.tmp && mv rescript.json.tmp rescript.json && \
+        echo "New version: $$new"
 
-# Bump version (major)
+# Bump version (major).
 bump-major:
-    @echo "Current version: $(jq -r .version package.json)"
-    @echo "Bumping major version..."
-    npm version major --no-git-tag-version
-    @echo "New version: $(jq -r .version package.json)"
+    @echo "Current version: $(jq -r .version rescript.json)"
+    @new=$(jq -r '.version | split(".") | [(.[0] | tonumber + 1 | tostring), "0", "0"] | join(".")' rescript.json) && \
+        jq --arg v "$$new" '.version = $$v' rescript.json > rescript.json.tmp && mv rescript.json.tmp rescript.json && \
+        echo "New version: $$new"
 
 # === Utilities ===
 
-# Count lines of code
+# Count lines of code.
 loc:
     @echo "=== Lines of Code ==="
-    @echo "TypeScript:"
-    @find src -name "*.ts" -exec wc -l {} + 2>/dev/null | tail -1 || echo "0"
+    @echo "ReScript:"
+    @find src -name "*.res" -exec wc -l {} + 2>/dev/null | tail -1 || echo "0"
     @echo "Tests:"
-    @find tests -name "*.ts" -exec wc -l {} + 2>/dev/null | tail -1 || echo "0"
+    @find tests -name "*.res" -exec wc -l {} + 2>/dev/null | tail -1 || echo "0"
     @echo "Documentation:"
-    @find . -name "*.md" ! -path "./node_modules/*" -exec wc -l {} + | tail -1
+    @find . -name "*.md" -o -name "*.adoc" -exec wc -l {} + 2>/dev/null | tail -1
 
-# Show project statistics
+# Show project statistics.
 stats:
     @echo "=== Project Statistics ==="
-    @echo "Total files: $(find . -type f ! -path "./.git/*" ! -path "./node_modules/*" | wc -l)"
-    @echo "TypeScript files: $(find src -name "*.ts" 2>/dev/null | wc -l)"
-    @echo "Test files: $(find tests -name "*.ts" 2>/dev/null | wc -l)"
-    @echo "Documentation files: $(find . -name "*.md" -o -name "*.adoc" ! -path "./node_modules/*" | wc -l)"
+    @echo "Total files: $(find . -type f ! -path './.git/*' | wc -l)"
+    @echo "ReScript files: $(find src -name '*.res' 2>/dev/null | wc -l)"
+    @echo "Test files: $(find tests -name '*.res' 2>/dev/null | wc -l)"
+    @echo "Documentation files: $(find . -name '*.md' -o -name '*.adoc' | wc -l)"
     @just loc
 
-# Show help for specific recipe
+# Show help for specific recipe.
 help recipe:
     @just --show {{recipe}}
 
-# === Dependencies ===
-
-# Update dependencies
-update-deps:
-    npm update
-
-# Check for outdated dependencies
-check-deps:
-    npm outdated
-
-# Audit dependencies for vulnerabilities
-audit:
-    npm audit
-
-# Fix audit issues
-audit-fix:
-    npm audit fix
-
 # === Environment ===
 
-# Create .env from example
+# Create .env from example.
 env-setup:
     @if [ ! -f .env ]; then \
         cp .env.example .env; \
@@ -226,7 +194,7 @@ env-setup:
         echo "⚠️  .env already exists"; \
     fi
 
-# Validate .env file
+# Validate .env file.
 env-check:
     @if [ ! -f .env ]; then \
         echo "❌ .env file not found"; \
@@ -239,21 +207,12 @@ env-check:
     @grep -q "ANTHROPIC_API_KEY" .env || (echo "❌ Missing ANTHROPIC_API_KEY" && exit 1)
     @echo "✓ Required environment variables present"
 
-# === Cleanup ===
-
-# Remove all generated files
-nuke: clean-all
-    rm -rf coverage/
-    rm -rf dist/
-    rm -rf .turbo/
-    @echo "✓ All generated files removed"
-
 # === CI/CD ===
 
-# Run CI checks
-ci: install build lint type-check test
+# Run CI checks.
+ci: build lint check test
     @echo "✓ CI checks passed"
 
-# Run full CI pipeline
+# Run full CI pipeline.
 ci-full: ci test-coverage validate
     @echo "✓ Full CI pipeline passed"

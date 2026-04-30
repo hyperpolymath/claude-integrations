@@ -35,21 +35,21 @@ Claude GitLab Bridge seamlessly integrates Anthropic's Claude AI assistant with 
 
 ```bash
 = Clone the repository
-git clone https://github.com/hyperpolymath/claude-gitlab-bridge.git
-cd claude-gitlab-bridge
+git clone https://github.com/hyperpolymath/claude-integrations.git
+cd claude-integrations/gitlab-bridge
 
-= Install dependencies
-npm install
+= Build (Deno fetches deps from deno.json on first run)
+just build         # rescript build → emits *.res.js
 
 = Configure environment
 cp .env.example .env
 = Edit .env with your credentials
 
 = Run tests
-npm test
+just test          # deno task test
 
 = Start the application
-npm start
+just dev           # deno task dev (watches src/Main.res.js)
 ```
 
 === Configuration
@@ -80,21 +80,19 @@ Required scopes:
 
 === Basic Example
 
-```typescript
-import { ClaudeGitLabBridge } from 'claude-gitlab-bridge'
-
-const bridge = new ClaudeGitLabBridge({
-  gitlabToken: process.env.GITLAB_TOKEN,
-  anthropicKey: process.env.ANTHROPIC_API_KEY
+```rescript
+// ReScript — see src/Main.res for the entry point
+let bridge = ClaudeGitLabBridge.make({
+  gitlabToken: Env.required("GITLAB_TOKEN"),
+  anthropicKey: Env.required("ANTHROPIC_API_KEY"),
 })
 
-// Analyze an issue with Claude
-const analysis = await bridge.analyzeIssue({
-  projectId: '12345',
-  issueId: 42
+let analysis = await bridge->ClaudeGitLabBridge.analyzeIssue({
+  projectId: "12345",
+  issueId: 42,
 })
 
-console.log(analysis)
+Console.log(analysis)
 ```
 
 === Webhook Integration
@@ -142,41 +140,42 @@ Configure GitLab webhooks to point to your deployment:
 === Development Workflow
 
 ```bash
-= Install with dev dependencies
-npm install
+= Build the ReScript sources
+just build
 
-= Run in development mode
-npm run dev
+= Run in development mode (watches the compiled JS)
+just dev
 
 = Run tests
-npm test
+just test
 
 = Run tests in watch mode
-npm test -- --watch
+just test-watch
 
-= Lint code
-npm run lint
+= Lint code (deno lint)
+just lint
 
-= Format code
-npm run format
+= Format code (deno fmt)
+just format
 
-= Type check
-npm run type-check
+= Type check the compiled output
+just check
 ```
 
 === Project Structure
 
 ```
-claude-gitlab-bridge/
+gitlab-bridge/
 ├── src/
-│   ├── api/          # API route handlers
+│   ├── auth/         # Authentication, rate-limiting, webhook validation
+│   ├── bindings/     # ReScript bindings (Anthropic, Express, Crypto, …)
+│   ├── config/       # Multi-repo configuration
+│   ├── forges/       # Forge adapters (GitLab, GitHub, Gitea, SourceHut)
 │   ├── services/     # Business logic
-│   ├── models/       # Data models
-│   ├── utils/        # Utilities
-│   └── middleware/   # Express middleware
-├── tests/            # Test files
+│   ├── templates/    # Prompt templates
+│   └── Main.res      # Entry point
+├── tests/            # ReScript tests (deno test runner)
 ├── docs/             # Documentation
-├── scripts/          # Build and utility scripts
 └── .well-known/      # Standard metadata files
 ```
 
@@ -184,16 +183,10 @@ claude-gitlab-bridge/
 
 ```bash
 = All tests
-npm test
+just test
 
-= Unit tests only
-npm run test:unit
-
-= Integration tests
-npm run test:integration
-
-= Coverage report
-npm run test:coverage
+= With coverage
+just test-coverage
 ```
 
 == Documentation
@@ -257,21 +250,24 @@ See [SECURITY.md](SECURITY.md) for full policy.
 
 Main class for interacting with the bridge.
 
-```typescript
-class ClaudeGitLabBridge {
-  constructor(config: BridgeConfig)
+```rescript
+// API surface (see src/Main.res for the actual signatures)
+module ClaudeGitLabBridge: {
+  type t
+
+  let make: BridgeConfig.t => t
 
   // Analyze GitLab issue with Claude
-  analyzeIssue(params: IssueParams): Promise<Analysis>
+  let analyzeIssue: (t, IssueParams.t) => promise<Analysis.t>
 
   // Review merge request with Claude
-  reviewMR(params: MRParams): Promise<Review>
+  let reviewMR: (t, MRParams.t) => promise<Review.t>
 
   // Execute automated task
-  executeTask(params: TaskParams): Promise<Result>
+  let executeTask: (t, TaskParams.t) => promise<Result.t>
 
   // Handle webhook event
-  handleWebhook(event: WebhookEvent): Promise<void>
+  let handleWebhook: (t, WebhookEvent.t) => promise<unit>
 }
 ```
 

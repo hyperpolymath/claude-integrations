@@ -195,11 +195,11 @@ All requested features for the Claude GitLab Bridge have been successfully imple
 - `WORK-SUMMARY.adoc` - Detailed work summary
 - `COMPLETION-REPORT.adoc` - This file
 
-=== Configuration Files (3 files)
+=== Configuration Files (2 files)
 
 - `rescript.json` - ReScript compiler configuration
-- `deno.json` - Deno runtime and tasks
-- `package.json` - Updated for new stack
+- `deno.json` - Deno runtime and tasks (the package manifest;
+  `package.json` was removed as a follow-up — npm is banned)
 
 == Technical Highlights
 
