@@ -65,7 +65,7 @@ type repository = {
   fullName: string,
   description: option<string>,
   defaultBranch: string,
-  visibility: [#public | #private | #internal],
+  visibility: [#public | #"private" | #internal],
   url: string,
   cloneUrl: string,
   sshUrl: string,
