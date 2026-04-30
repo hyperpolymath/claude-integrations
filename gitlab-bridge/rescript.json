@@ -20,6 +20,5 @@
   "dependencies": ["@rescript/core"],
   "warnings": {
     "error": "+101+5"
-  },
-  "bsc-flags": ["-bs-super-errors"]
+  }
 }
