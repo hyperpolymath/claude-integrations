@@ -216,7 +216,8 @@ let getRequiredScopesForOperations = (operations: array<string>): array<gitLabSc
     result.requiredScopes
   })
   ->Array.flat
-  ->Array.toSet
+  // ReScript 12: `Array.toSet` was removed; dedup via `Set.fromArray`.
+  ->Set.fromArray
   ->Set.toArray
 }
 

@@ -46,7 +46,7 @@ let insufficientScopeError = (
     requiredScopes->Array.filter(scope => !(availableScopes->Array.includes(scope)))
   {
     name: "InsufficientScopeError",
-    message: `Missing required scopes: ${missing->Array.joinWith(", ")}`,
+    message: `Missing required scopes: ${missing->Array.join(", ")}`,
     code: "INSUFFICIENT_SCOPE",
     statusCode: 403,
   }
@@ -57,7 +57,7 @@ exception DangerousScope(array<string>)
 
 let dangerousScopeError = (~dangerousScopes: array<string>): authError => {
   name: "DangerousScopeError",
-  message: `Token contains dangerous scopes: ${dangerousScopes->Array.joinWith(", ")}. These scopes are not allowed for security reasons.`,
+  message: `Token contains dangerous scopes: ${dangerousScopes->Array.join(", ")}. These scopes are not allowed for security reasons.`,
   code: "DANGEROUS_SCOPE",
   statusCode: 403,
 }
@@ -112,18 +112,21 @@ let userBlockedError = (~userId: int, ~state: string): authError => {
   statusCode: 403,
 }
 
-// Helper to convert error to JSON for API responses
-let errorToJSON = (error: authError): JSON.t => {
-  open JSON
-  object_(
+// Helper to convert error to JSON for API responses.
+// In ReScript 12 / @rescript/core, the JSON constructor helpers
+// (`string`, `number`, `object`, …) live under `JSON.Encode`, and
+// `object_` was renamed to `object`. Calls are fully qualified
+// rather than via `open JSON.Encode` to avoid shadowing the
+// top-level `float` identifier used elsewhere.
+let errorToJSON = (error: authError): JSON.t =>
+  JSON.Encode.object(
     Dict.fromArray([
-      ("name", string(error.name)),
-      ("message", string(error.message)),
-      ("code", string(error.code)),
-      ("statusCode", number(error.statusCode->Int.toFloat)),
+      ("name", JSON.Encode.string(error.name)),
+      ("message", JSON.Encode.string(error.message)),
+      ("code", JSON.Encode.string(error.code)),
+      ("statusCode", JSON.Encode.int(error.statusCode)),
     ]),
   )
-}
 
 // Helper to check if error is retryable
 let isRetryable = (error: authError): bool =>

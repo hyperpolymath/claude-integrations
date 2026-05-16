@@ -12,8 +12,10 @@ type templateVar = {
   value: string,
 }
 
-// Template metadata
-type templateMetadata = {
+// Template metadata. `type rec` required for the `and templateCategory`
+// chain below (ReScript 12 enforces explicit `rec` for mutually
+// recursive type declarations).
+type rec templateMetadata = {
   name: string,
   description: string,
   author: option<string>,
@@ -29,8 +31,9 @@ and templateCategory =
   | @as("testing") Testing
   | @as("custom") Custom
 
-// Prompt template
-type promptTemplate = {
+// Prompt template. `type rec` required for the `and templateExample`
+// chain below.
+type rec promptTemplate = {
   metadata: templateMetadata,
   systemPrompt: option<string>,
   userPromptTemplate: string,
@@ -68,7 +71,10 @@ let getTemplate = (registry: templateRegistry, name: string): option<promptTempl
 // Extract variables from template string
 let extractVariables = (template: string): array<string> => {
   // Find all {{variable}} patterns
-  let pattern = makeTokenPattern("\\{\\{([^}]+)\\}\\}")
+  // ReScript 12: use `RegExp.fromString` from `@rescript/core` rather
+  // than `TokenValidator.makeTokenPattern`, which is a private external
+  // not exported by that module.
+  let _pattern = RegExp.fromString("\\{\\{([^}]+)\\}\\}")
   let matches: array<string> = []
 
   // Simplified - real implementation would use proper regex matching
@@ -228,12 +234,15 @@ let render = (
   variables: array<templateVar>,
 ): result<(option<string>, string), string> => {
   // Validate all required variables are provided
+  // ReScript 12: prefix `!` binds tighter than the `->` pipe, so
+  // `!variables->Array.some(...)` parsed as `(!variables)->...` and
+  // tried to negate an array. Parenthesise the pipeline result.
   let missingVars = template.variables->Array.filter(varName =>
-    !variables->Array.some(v => v.name == varName)
+    !(variables->Array.some(v => v.name == varName))
   )
 
   if missingVars->Array.length > 0 {
-    Error(`Missing required variables: ${missingVars->Array.joinWith(", ")}`)
+    Error(`Missing required variables: ${missingVars->Array.join(", ")}`)
   } else {
     let userPrompt = substituteVariables(template.userPromptTemplate, variables)
     Ok((template.systemPrompt, userPrompt))
@@ -250,18 +259,18 @@ let parseTemplate = (json: JSON.t): result<promptTemplate, string> => {
   }
 }
 
-// Export template to JSON
-let exportTemplate = (template: promptTemplate): JSON.t => {
-  JSON.object_(
+// Export template to JSON. ReScript 12 / @rescript/core: JSON
+// helpers moved to `JSON.Encode`; `object_` → `object`.
+let exportTemplate = (template: promptTemplate): JSON.t =>
+  JSON.Encode.object(
     Dict.fromArray([
-      ("name", JSON.string(template.metadata.name)),
-      ("description", JSON.string(template.metadata.description)),
-      ("version", JSON.string(template.metadata.version)),
-      ("userPromptTemplate", JSON.string(template.userPromptTemplate)),
+      ("name", JSON.Encode.string(template.metadata.name)),
+      ("description", JSON.Encode.string(template.metadata.description)),
+      ("version", JSON.Encode.string(template.metadata.version)),
+      ("userPromptTemplate", JSON.Encode.string(template.userPromptTemplate)),
       (
         "variables",
-        JSON.array(template.variables->Array.map(v => JSON.string(v))),
+        JSON.Encode.array(template.variables->Array.map(v => JSON.Encode.string(v))),
       ),
     ]),
   )
-}

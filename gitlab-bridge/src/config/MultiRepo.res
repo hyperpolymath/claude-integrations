@@ -7,7 +7,9 @@
  */
 
 // Repository configuration
-type repoConfig = {
+// `type rec` required for the `and repoFeatures` chain below
+// (ReScript 12 enforces explicit `rec` for mutually recursive types).
+type rec repoConfig = {
   id: string,
   projectId: string,
   gitlabUrl: string,
@@ -85,17 +87,17 @@ let validateRepoConfig = (config: repoConfig): result<unit, string> => {
 let parseRepoConfig = (json: JSON.t): result<repoConfig, string> => {
   try {
     // Simplified parsing - real implementation would use proper JSON decoder
-    let obj = json->JSON.Decode.object->Option.getExn
+    let obj = json->JSON.Decode.object->Option.getOrThrow
 
     let id = obj
       ->Dict.get("id")
       ->Option.flatMap(JSON.Decode.string)
-      ->Option.getExn
+      ->Option.getOrThrow
 
     let projectId = obj
       ->Dict.get("projectId")
       ->Option.flatMap(JSON.Decode.string)
-      ->Option.getExn
+      ->Option.getOrThrow
 
     let gitlabUrl = obj
       ->Dict.get("gitlabUrl")
@@ -105,7 +107,7 @@ let parseRepoConfig = (json: JSON.t): result<repoConfig, string> => {
     let name = obj
       ->Dict.get("name")
       ->Option.flatMap(JSON.Decode.string)
-      ->Option.getExn
+      ->Option.getOrThrow
 
     let enabled = obj
       ->Dict.get("enabled")
@@ -137,11 +139,17 @@ let parseRepoConfig = (json: JSON.t): result<repoConfig, string> => {
 // Load multiple repositories from JSON
 let parseMultiRepoConfig = (json: JSON.t): result<multiRepoConfig, string> => {
   try {
-    let obj = json->JSON.Decode.object->Option.getExn
+    // ReScript 12 / @rescript/core changes used here:
+    //   * `Option.getOrThrow` → `Option.getOrThrow`
+    //   * `Array.keepSome` no longer takes a transform; it just
+    //     filters `array<option<_>>` → `array<_>`. The combined
+    //     filter+map pattern is now `Array.filterMap`.
+    let obj = json->JSON.Decode.object->Option.getOrThrow
 
-    let reposJson = obj->Dict.get("repositories")->Option.flatMap(JSON.Decode.array)->Option.getExn
+    let reposJson =
+      obj->Dict.get("repositories")->Option.flatMap(JSON.Decode.array)->Option.getOrThrow
 
-    let repos = reposJson->Array.map(parseRepoConfig)->Array.keepSome((result) =>
+    let repos = reposJson->Array.map(parseRepoConfig)->Array.filterMap(result =>
       switch result {
       | Ok(config) => Some(config)
       | Error(_) => None
@@ -184,9 +192,11 @@ let getStats = (registry: repoRegistry): repoStats => {
   let all = registry.repos->Dict.valuesToArray
   let enabled = all->Array.filter(r => r.enabled)
   let disabled = all->Array.filter(r => !r.enabled)
+  // ReScript 12: `Array.toSet` was removed; use `Set.fromArray`
+  // directly to deduplicate the URL array.
   let urls = all
     ->Array.map(r => r.gitlabUrl)
-    ->Array.toSet
+    ->Set.fromArray
     ->Set.toArray
 
   {
@@ -200,21 +210,21 @@ let getStats = (registry: repoRegistry): repoStats => {
 // Export configuration to JSON
 let exportConfig = (config: multiRepoConfig): JSON.t => {
   let repos = config.repositories->Array.map(repo => {
-    JSON.object_(
+    JSON.Encode.object(
       Dict.fromArray([
-        ("id", JSON.string(repo.id)),
-        ("projectId", JSON.string(repo.projectId)),
-        ("gitlabUrl", JSON.string(repo.gitlabUrl)),
-        ("name", JSON.string(repo.name)),
-        ("enabled", JSON.bool(repo.enabled)),
+        ("id", JSON.Encode.string(repo.id)),
+        ("projectId", JSON.Encode.string(repo.projectId)),
+        ("gitlabUrl", JSON.Encode.string(repo.gitlabUrl)),
+        ("name", JSON.Encode.string(repo.name)),
+        ("enabled", JSON.Encode.bool(repo.enabled)),
       ]),
     )
   })
 
-  JSON.object_(
+  JSON.Encode.object(
     Dict.fromArray([
-      ("repositories", JSON.array(repos)),
-      ("defaultGitlabUrl", JSON.string(config.defaultGitlabUrl)),
+      ("repositories", JSON.Encode.array(repos)),
+      ("defaultGitlabUrl", JSON.Encode.string(config.defaultGitlabUrl)),
     ]),
   )
 }

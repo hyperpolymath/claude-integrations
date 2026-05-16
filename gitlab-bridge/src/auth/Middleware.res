@@ -77,10 +77,10 @@ let createAuthMiddleware = (~config: authMiddlewareConfig=defaultAuthConfig): Ex
           res
           ->Express.status(error.statusCode)
           ->Express.json(
-            JSON.object_(
+            JSON.Encode.object(
               Dict.fromArray([
-                ("error", JSON.string(error.code)),
-                ("message", JSON.string(error.message)),
+                ("error", JSON.Encode.string(error.code)),
+                ("message", JSON.Encode.string(error.message)),
               ]),
             ),
           )
@@ -92,10 +92,10 @@ let createAuthMiddleware = (~config: authMiddlewareConfig=defaultAuthConfig): Ex
             res
             ->Express.status(error.statusCode)
             ->Express.json(
-              JSON.object_(
+              JSON.Encode.object(
                 Dict.fromArray([
-                  ("error", JSON.string(error.code)),
-                  ("message", JSON.string(error.message)),
+                  ("error", JSON.Encode.string(error.code)),
+                  ("message", JSON.Encode.string(error.message)),
                 ]),
               ),
             )
@@ -151,10 +151,10 @@ let createWebhookMiddleware = (~secret: string): Express.middleware => {
           res
           ->Express.status(error.statusCode)
           ->Express.json(
-            JSON.object_(
+            JSON.Encode.object(
               Dict.fromArray([
-                ("error", JSON.string(error.code)),
-                ("message", JSON.string(error.message)),
+                ("error", JSON.Encode.string(error.code)),
+                ("message", JSON.Encode.string(error.message)),
               ]),
             ),
           )
@@ -173,7 +173,7 @@ let createWebhookMiddleware = (~secret: string): Express.middleware => {
  * Verifies the request has an auth context with sufficient scopes.
  */
 let requirePermissionMiddleware = (~operation: string): Express.middleware => {
-  (req, res, next) => {
+  (_req, res, next) => {
     try {
       // In a real implementation, auth context would be attached to req
       // For now, we validate the operation exists
@@ -193,10 +193,10 @@ let requirePermissionMiddleware = (~operation: string): Express.middleware => {
           res
           ->Express.status(error.statusCode)
           ->Express.json(
-            JSON.object_(
+            JSON.Encode.object(
               Dict.fromArray([
-                ("error", JSON.string(error.code)),
-                ("message", JSON.string(error.message)),
+                ("error", JSON.Encode.string(error.code)),
+                ("message", JSON.Encode.string(error.message)),
               ]),
             ),
           )
@@ -211,10 +211,10 @@ let requirePermissionMiddleware = (~operation: string): Express.middleware => {
           res
           ->Express.status(error.statusCode)
           ->Express.json(
-            JSON.object_(
+            JSON.Encode.object(
               Dict.fromArray([
-                ("error", JSON.string(error.code)),
-                ("message", JSON.string(error.message)),
+                ("error", JSON.Encode.string(error.code)),
+                ("message", JSON.Encode.string(error.message)),
               ]),
             ),
           )
@@ -225,10 +225,10 @@ let requirePermissionMiddleware = (~operation: string): Express.middleware => {
           res
           ->Express.status(error.statusCode)
           ->Express.json(
-            JSON.object_(
+            JSON.Encode.object(
               Dict.fromArray([
-                ("error", JSON.string(error.code)),
-                ("message", JSON.string(error.message)),
+                ("error", JSON.Encode.string(error.code)),
+                ("message", JSON.Encode.string(error.message)),
               ]),
             ),
           )
@@ -244,16 +244,16 @@ let requirePermissionMiddleware = (~operation: string): Express.middleware => {
  */
 let authErrorHandler: Express.errorMiddleware = (error, _req, res, next) => {
   // Check if we can extract error info
-  switch error->Js.Exn.message {
+  switch error->JsExn.message {
   | Some(msg) if msg->String.includes("AUTH") || msg->String.includes("TOKEN") => {
       let _ =
         res
         ->Express.status(401)
         ->Express.json(
-          JSON.object_(
+          JSON.Encode.object(
             Dict.fromArray([
-              ("error", JSON.string("AUTH_ERROR")),
-              ("message", JSON.string(msg)),
+              ("error", JSON.Encode.string("AUTH_ERROR")),
+              ("message", JSON.Encode.string(msg)),
             ]),
           ),
         )

@@ -220,8 +220,10 @@ let validateSecretStrength = (secret: string): secretStrengthResult => {
       let _ = issues->Array.push("Secret should contain mixed character types")
     }
 
-    // Check for repeated character
-    let repeatedChar = %re("/^(.)\1+$/")
+    // Check for repeated character. The `\1` backreference is escaped
+    // as `\\1` so ReScript 12's stricter string-literal lexer accepts
+    // it; the resulting JS regex is unchanged.
+    let repeatedChar = %re("/^(.)\\1+$/")
     if repeatedChar->RegExp.test(secret) {
       let _ = issues->Array.push("Secret should not be a repeated character")
     }

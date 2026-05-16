@@ -196,7 +196,9 @@ describe("rate-limiter", () => {
     })
 
     it("should have valid configurations", () => {
-      RateLimiter.presets->Dict.forEachWithKey((_name, preset) => {
+      // ReScript 12: `Dict.forEachWithKey` callback is `(value, key)`,
+      // so the preset record (value) comes first; the name is the key.
+      RateLimiter.presets->Dict.forEachWithKey((preset, _name) => {
         expect(preset.limit)->toBeGreaterThan(0)
         expect(preset.windowMs)->toBeGreaterThan(0)
       })

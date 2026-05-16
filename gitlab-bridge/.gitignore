@@ -40,6 +40,11 @@ erl_crash.dump
 # ReScript
 /lib/
 /.bsb.lock
+# `in-source: true` in rescript.json puts compiled JS alongside .res
+# sources; those are build artefacts, not tracked.
+*.res.js
+*.resi.js
+*.res.mjs
 
 # Python (SaltStack only)
 __pycache__/
