@@ -1,31 +1,31 @@
-# Claude Integrations - Claude Code Instructions
+# CI Infrastructure - Claude Code Instructions
 
-This repository contains integrations for Claude Code and other AI assistants.
+This repository contains CI/CD infrastructure configurations and scripts.
 
 ## Project Structure
 
 ```
-claude-integrations/
+ci/
 ├── .claude/         # AI assistant instructions
 ├── .git/           # Version control
 ├── .gitignore      # Git ignore rules
 ├── .editorconfig   # Editor configuration
-└── ...             # Integration files
+└── ...             # CI configuration files
 ```
 
 ## Build Commands
 
-Refer to individual integration documentation.
+Refer to individual configuration files for build commands.
 
 ## Coding Conventions
 
 - Follow hyperpolymath standards
-- Prefer declarative configurations
-- Document all integration points
-- Test all integrations in isolation
+- All configuration in version control
+- Use declarative configurations where possible
+- Document all non-obvious decisions
 
 ## Security
 
-- No hardcoded API keys
-- All credentials through secure configuration
-- Minimal permissions principle
+- No hardcoded secrets
+- All secrets through environment variables or secret management
+- SHA-pinned dependencies where applicable
