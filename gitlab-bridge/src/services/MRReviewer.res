@@ -66,10 +66,12 @@ let parseDiff = (diffText: string): array<fileDiff> => {
     let diffLines = lines
       ->Array.filter(line => {
         let trimmed = line->String.trim
+        // ReScript 12: prefix `!` binds tighter than `->`, so each
+        // `!x->String.startsWith(…)` must be parenthesised.
         trimmed->String.length > 0 &&
-        !trimmed->String.startsWith("---") &&
-        !trimmed->String.startsWith("+++") &&
-        !trimmed->String.startsWith("@@")
+        !(trimmed->String.startsWith("---")) &&
+        !(trimmed->String.startsWith("+++")) &&
+        !(trimmed->String.startsWith("@@"))
       })
       ->Array.mapWithIndex((line, idx) => {
         let changeType = if line->String.startsWith("+") {

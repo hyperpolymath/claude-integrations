@@ -17,13 +17,19 @@ type forgeType =
   | @as("codeberg") Codeberg
   | @as("forgejo") Forgejo
 
-// Common issue type
-type issue = {
+// Common issue type. `type rec` (not `type`) is required because the
+// `and user = ...` chain below makes the declaration mutually
+// recursive — ReScript 12 enforces the `rec` keyword that earlier
+// versions accepted implicitly.
+type rec issue = {
   id: int,
   iid: int, // Internal ID (per-project)
   title: string,
   description: string,
-  state: [#open | #closed],
+  // `open` is reserved in ReScript 12 (module open syntax). The
+  // variant tag is quoted so the JSON wire format ("open") is
+  // preserved.
+  state: [#"open" | #closed],
   labels: array<string>,
   author: user,
   assignees: array<user>,
@@ -46,7 +52,7 @@ type mergeRequest = {
   iid: int,
   title: string,
   description: string,
-  state: [#open | #merged | #closed],
+  state: [#"open" | #merged | #closed],
   sourceBranch: string,
   targetBranch: string,
   author: user,
@@ -65,6 +71,9 @@ type repository = {
   fullName: string,
   description: option<string>,
   defaultBranch: string,
+  // `private` is a reserved keyword in ReScript 12, so the variant
+  // tag is quoted. JSON serialization remains "private" — no
+  // wire-format change.
   visibility: [#public | #"private" | #internal],
   url: string,
   cloneUrl: string,
