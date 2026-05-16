@@ -10,14 +10,18 @@ type request
 type response
 type nextFunction = unit => unit
 type middleware = (request, response, nextFunction) => unit
-type errorMiddleware = (Js.Exn.t, request, response, nextFunction) => unit
+type errorMiddleware = (JsExn.t, request, response, nextFunction) => unit
 type app
 
 // Create Express app
 @module("express") external make: unit => app = "default"
 
 // Request methods
-@get external getHeader: (request, string) => option<string> = "get"
+// `getHeader` is a method call (`req.get("Header-Name")`), not a property
+// read, so it uses `@send`, not `@get`. ReScript 12's stricter
+// `@get`-attribute checking rejected the prior `@get` form (which had
+// two arguments, only valid for `@send`).
+@send external getHeader: (request, string) => option<string> = "get"
 @get external getBody: request => JSON.t = "body"
 @get external getParams: request => JSON.t = "params"
 @get external getQuery: request => JSON.t = "query"
@@ -52,8 +56,13 @@ let sendSuccess = (res: response, ~data: JSON.t, ~statusCode=200, ()): response 
 
 // Helper to create JSON error response
 let sendError = (res: response, ~message: string, ~statusCode=500, ()): response => {
-  let error = JSON.object_(
-    Dict.fromArray([("error", JSON.string(message)), ("status", JSON.number(statusCode->Int.toFloat))]),
+  // ReScript 12 / @rescript/core: JSON helpers moved to JSON.Encode;
+  // `object_` → `object`; no top-level `number` (use `int`/`float`).
+  let error = JSON.Encode.object(
+    Dict.fromArray([
+      ("error", JSON.Encode.string(message)),
+      ("status", JSON.Encode.int(statusCode)),
+    ]),
   )
   res->status(statusCode)->json(error)
 }

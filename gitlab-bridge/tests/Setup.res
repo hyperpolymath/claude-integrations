@@ -6,17 +6,17 @@
  * Clears cached environment variables before each test suite.
  */
 
-// External bindings for process.env manipulation
+// External bindings for reading process.env. Setters are not needed
+// here — the `%%raw` block below uses JS `delete` directly to clear
+// env vars, which is what tests actually call. (The previous version
+// also declared `@set @scope(("process", "env")) external …` setters
+// for each variable; those were unused and rejected by ReScript 12's
+// stricter handling of `@set` + nested `@scope`. Removing them fixes
+// the build break flagged in PR #10's "out of scope" notes.)
 @val @scope(("process", "env")) external gitlabToken: option<string> = "GITLAB_TOKEN"
 @val @scope(("process", "env")) external gitlabUrl: option<string> = "GITLAB_URL"
 @val @scope(("process", "env")) external anthropicApiKey: option<string> = "ANTHROPIC_API_KEY"
 @val @scope(("process", "env")) external webhookSecret: option<string> = "WEBHOOK_SECRET"
-
-// Delete env vars by setting to undefined
-@set @scope(("process", "env")) external setGitlabToken: string => unit = "GITLAB_TOKEN"
-@set @scope(("process", "env")) external setGitlabUrl: string => unit = "GITLAB_URL"
-@set @scope(("process", "env")) external setAnthropicApiKey: string => unit = "ANTHROPIC_API_KEY"
-@set @scope(("process", "env")) external setWebhookSecret: string => unit = "WEBHOOK_SECRET"
 
 // We use JS interop to delete env vars
 %%raw(`

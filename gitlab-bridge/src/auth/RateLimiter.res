@@ -62,7 +62,9 @@ let make = (~config: rateLimitConfig=defaultConfig): rateLimiter => {
     let now = Date.now()
     let expireTime = config.windowMs->Int.toFloat *. 2.0
 
-    limiter.store->Map.forEach((record, key) => {
+    // ReScript 12: `Map.forEach` now takes a single-argument callback
+    // (value only). Use `forEachWithKey` for the (value, key) form.
+    limiter.store->Map.forEachWithKey((record, key) => {
       if now -. record.lastAccess > expireTime {
         let _ = limiter.store->Map.delete(key)
       }
