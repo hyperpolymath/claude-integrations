@@ -71,9 +71,6 @@ type repository = {
   fullName: string,
   description: option<string>,
   defaultBranch: string,
-  // `private` is a reserved keyword in ReScript 12, so the variant
-  // tag is quoted. JSON serialization remains "private" — no
-  // wire-format change.
   visibility: [#public | #"private" | #internal],
   url: string,
   cloneUrl: string,
