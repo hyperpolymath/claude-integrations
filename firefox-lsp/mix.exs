@@ -81,7 +81,7 @@ defmodule ClaudeFirefox.LSP.MixProject do
     [
       name: "claude_firefox_lsp",
       files: ~w(lib .formatter.exs mix.exs README.adoc LICENSE CHANGELOG.md),
-      licenses: ["PMPL-1.0-or-later"],
+      licenses: ["MPL-2.0"],
       links: %{
         "GitHub" => @source_url
       }

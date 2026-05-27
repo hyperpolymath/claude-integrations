@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "description": "Bridge between Claude AI and GitLab — runtime config in deno.json.",
   "private": true,
-  "license": "PMPL-1.0-or-later",
+  "license": "MPL-2.0",
   "author": "Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>",
   "repository": {
     "type": "git",
