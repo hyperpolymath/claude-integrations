@@ -85,6 +85,10 @@ htmlcov/
 # npm lockfiles must never be committed estate-wide.
 package-lock.json
 **/package-lock.json
+bun.lockb
+yarn.lock
+pnpm-lock.yaml
+.npmrc
 
 # Agent & editor scaffolding (standards#68) — local-only, never committed
 # estate-wide. Owner decision 2026-05-16: gitignore both rather than commit
