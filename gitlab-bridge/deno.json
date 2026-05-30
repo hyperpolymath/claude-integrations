@@ -16,8 +16,8 @@
   },
   "tasks": {
     "dev": "deno run --allow-net --allow-read --allow-env --watch src/Main.res.js",
-    "build": "rescript build",
-    "clean": "rescript clean",
+    "build": "deno run -A --node-modules-dir=auto npm:rescript build",
+    "clean": "deno run -A --node-modules-dir=auto npm:rescript clean",
     "test": "deno test --allow-all tests/",
     "test:watch": "deno test --allow-all --watch tests/",
     "test:coverage": "deno test --allow-all --coverage=coverage tests/",
