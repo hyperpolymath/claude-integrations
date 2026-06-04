@@ -1,7 +1,8 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 image:https://img.shields.io/badge/license-PMPL--1.0-blue.svg[License,link="https://github.com/hyperpolymath/palimpsest-license"]
 
 
-// SPDX-License-Identifier: PMPL-1.0
 // SPDX-FileCopyrightText: 2025 hyperpolymath
 
 = Claude for Gecko
@@ -119,15 +120,15 @@ The extension will be submitted to https://addons.mozilla.org[Firefox Add-ons] o
 
 === Legal License
 
-This project is licensed under the **Palimpsest-MPL License v1.0 (PMPL-1.0)** - see link:LICENSE[LICENSE] for details.
+This project is licensed under the **MPL-2.0 License v1.0 (MPL-2.0)** - see link:LICENSE[LICENSE] for details.
 
 You are free to use, modify, and distribute this software.
 
-=== Philosophical Companion: Palimpsest License
+=== Philosophical Companion: MPL-2.0
 
-We encourage adopters to also consider the principles of the **Palimpsest License** - a philosophical manifesto for building technology that serves humanity's long-term flourishing.
+We encourage adopters to also consider the principles of the **MPL-2.0** - a philosophical manifesto for building technology that serves humanity's long-term flourishing.
 
-The Palimpsest License is not a legal document but a commitment to:
+The MPL-2.0 is not a legal document but a commitment to:
 
 * Building on the work of others with gratitude
 * Leaving the codebase better than you found it
@@ -161,7 +162,7 @@ claude-gecko-browser-extension/
 │       └── icon-*.png      # Extension icons
 ├── docs/
 │   └── PALIMPSEST.adoc     # Philosophical license
-├── LICENSE                 # Palimpsest-MPL License v1.0 (PMPL-1.0)
+├── LICENSE                 # MPL-2.0 License v1.0 (MPL-2.0)
 ├── README.adoc             # This file
 └── STATE.scm               # Project state checkpoint
 ----

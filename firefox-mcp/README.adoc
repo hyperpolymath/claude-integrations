@@ -1,12 +1,13 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[MPL-2.0-or-later,link="https://opensource.org/licenses/MPL-2.0"]
 
 == License & Philosophy
 
 This project must declare **MPL-2.0-or-later** for platform/tooling compatibility.
 
-Philosophy: **Palimpsest**. The Palimpsest-MPL (PMPL) text is provided in `license/PMPL-1.0.txt`, and the canonical source is the palimpsest-license repository.
+Philosophy: **Palimpsest**. The MPL-2.0 (PMPL) text is provided in `license/MPL-2.0.txt`, and the canonical source is the palimpsest-license repository.
 
-// SPDX-License-Identifier: MPL-2.0-or-later
 = Claude Firefox MCP
 
 
@@ -171,12 +172,12 @@ The extension auto-reconnects to the MCP server. Click the extension icon to man
 |Proprietary
 
 |License
-|PMPL-1.0-or-later
+|MPL-2.0-or-later
 |Proprietary
 |===
 
 == License
 
-PMPL-1.0-or-later
+MPL-2.0-or-later
 
 This is an independent project. Not affiliated with Anthropic or Mozilla.

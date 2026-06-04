@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 = claude-gitlab-bridge - Citation Guide
 :toc:
 
@@ -10,7 +12,7 @@
   title = {claude-gitlab-bridge},
   year = {2025},
   url = {https://github.com/hyperpolymath/claude-gitlab-bridge},
-  license = {AGPL-3.0-or-later}
+  license = {MPL-2.0}
 }
 ----
 

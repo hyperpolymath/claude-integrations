@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # RSR Compliance Documentation
 
 **Project**: Claude GitLab Bridge
@@ -57,7 +61,7 @@ All required files are present and properly formatted:
 All source files include proper SPDX headers:
 
 ```
-SPDX-License-Identifier: PMPL-1.0-or-later
+SPDX-License-Identifier: MPL-2.0-or-later
 SPDX-FileCopyrightText: 2024 hyperpolymath
 ```
 
@@ -298,7 +302,7 @@ Open to all contributors who follow the Code of Conduct.
 
 All source files include:
 ```
-SPDX-License-Identifier: PMPL-1.0-or-later
+SPDX-License-Identifier: MPL-2.0-or-later
 SPDX-FileCopyrightText: 2024 hyperpolymath
 ```
 

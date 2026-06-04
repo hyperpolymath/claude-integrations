@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 = Claude Firefox LSP
 Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>
 :toc: left
@@ -192,11 +194,11 @@ Related projects:
 
 == License
 
-SPDX-License-Identifier: PMPL-1.0-or-later
+SPDX-License-Identifier: MPL-2.0-or-later
 
 Copyright (c) 2026 Jonathan D.A. Jewell
 
-Licensed under the Palimpsest License, version 1.0 or later.
+Licensed under the MPL-2.0, version 1.0 or later.
 
 == Contributing
 
