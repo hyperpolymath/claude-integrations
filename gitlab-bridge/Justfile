@@ -216,3 +216,6 @@ ci: build lint check test
 # Run full CI pipeline.
 ci-full: ci test-coverage validate
     @echo "✓ Full CI pipeline passed"
+
+secret-scan-trufflehog:
+    @command -v trufflehog >/dev/null && trufflehog filesystem . --only-verified || true
