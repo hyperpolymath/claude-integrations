@@ -1,4 +1,4 @@
-;; SPDX-License-Identifier: AGPL-3.0-or-later
+;; SPDX-License-Identifier: MPL-2.0
 ;; STATE.scm - Project state for claude-gecko-browser-extension
 ;; Media-Type: application/vnd.state+scm
 

@@ -57,7 +57,7 @@ All required files are present and properly formatted:
 All source files include proper SPDX headers:
 
 ```
-SPDX-License-Identifier: PMPL-1.0-or-later
+SPDX-License-Identifier: CC-BY-SA-4.0
 SPDX-FileCopyrightText: 2024 hyperpolymath
 ```
 
@@ -298,7 +298,7 @@ Open to all contributors who follow the Code of Conduct.
 
 All source files include:
 ```
-SPDX-License-Identifier: PMPL-1.0-or-later
+SPDX-License-Identifier: CC-BY-SA-4.0
 SPDX-FileCopyrightText: 2024 hyperpolymath
 ```
 

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: MPL-2.0
 // Claude Firefox MCP - Content Script Bridge
 // Injected into pages for DOM access
 
