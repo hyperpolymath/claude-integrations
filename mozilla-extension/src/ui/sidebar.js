@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: MPL-2.0
 // Sidebar UI logic for Claude Mozilla Extension
 
 document.addEventListener('DOMContentLoaded', init);

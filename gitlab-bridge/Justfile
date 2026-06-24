@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # Claude GitLab Bridge — build automation
 #
 # Stack: ReScript (sources) + Deno (runtime + task runner). All recipes
