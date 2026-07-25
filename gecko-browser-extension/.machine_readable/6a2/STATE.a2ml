@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+#
+# Converted from .scm format
+
+# SPDX-License-Identifier: PMPL-1.0-or-later
+
+[state]
+blockers-and-issues = ["critical"]
+critical-next-actions = ["immediate"]
+current-position = ["phase", "initial"]
+metadata = ["version", "0.0.1"]
+project-context = ["name", "claude-gecko-browser-extension"]
+route-to-mvp = [
+  "milestones",
+  [],
+]
+session-history = []
+
+

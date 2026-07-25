@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # Claude Firefox LSP - Project Summary
 
 **Created:** 2026-02-05
@@ -73,7 +77,7 @@ claude-firefox-lsp/
 ├── CHANGELOG.md                 # Version history
 ├── ECOSYSTEM.scm                # Ecosystem positioning
 ├── Justfile                     # Task automation
-├── LICENSE                      # PMPL-1.0-or-later
+├── LICENSE                      # MPL-2.0-or-later
 ├── META.scm                     # ADRs and design rationale
 ├── mix.exs                      # Elixir project config
 ├── README.adoc                  # User documentation
@@ -210,7 +214,7 @@ just start   # Start server
 
 ## License
 
-SPDX-License-Identifier: CC-BY-SA-4.0
+SPDX-License-Identifier: MPL-2.0-or-later
 Copyright (c) 2026 Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>
 
-Licensed under the Palimpsest License, version 1.0 or later.
+Licensed under the MPL-2.0, version 1.0 or later.

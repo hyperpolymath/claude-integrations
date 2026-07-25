@@ -1,10 +1,10 @@
-// SPDX-License-Identifier: CC-BY-SA-4.0
-
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 == License & Philosophy
 
 This project must declare **MPL-2.0-or-later** for platform/tooling compatibility.
 
-Philosophy: **Palimpsest**. The Palimpsest-MPL (PMPL) text is provided in `license/PMPL-1.0.txt`, and the canonical source is the palimpsest-license repository.
+Philosophy: **Palimpsest**. The MPL-2.0 (PMPL) text is provided in `license/MPL-2.0.txt`, and the canonical source is the palimpsest-license repository.
 = Claude for Mozilla
 :toc:
 :icons: font
@@ -110,7 +110,7 @@ Access settings via the gear icon in the sidebar:
 
 == License
 
-PMPL-1.0-or-later
+MPL-2.0-or-later
 
 This is an independent project and is not affiliated with Anthropic.
 Claude is a trademark of Anthropic, PBC.

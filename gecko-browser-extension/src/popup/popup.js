@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // Claude for Gecko - Popup Script
 
 const messagesContainer = document.getElementById("messages");
@@ -38,7 +39,9 @@ function addMessage(text, role, isLoading = false) {
 
   if (isLoading) {
     messageDiv.classList.add("loading");
-    messageDiv.innerHTML = "<p>Thinking</p>";
+    const paragraph = document.createElement("p");
+    paragraph.textContent = "Thinking";
+    messageDiv.appendChild(paragraph);
   } else {
     const paragraph = document.createElement("p");
     paragraph.textContent = text;
@@ -58,7 +61,10 @@ function addMessage(text, role, isLoading = false) {
  */
 function updateMessage(element, text) {
   element.classList.remove("loading");
-  element.innerHTML = "";
+  // Clear element safely
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
   const paragraph = document.createElement("p");
   paragraph.textContent = text;
   element.appendChild(paragraph);

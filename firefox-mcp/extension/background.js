@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // Claude Firefox MCP - Background Script
 // Connects to native host via WebSocket
 
@@ -108,8 +109,7 @@ async function executeToolCall(params) {
       return await typeText(args);
     case 'scroll':
       return await scroll(args);
-    case 'execute_js':
-      return await executeJs(args);
+    // Security: execute_js case removed to eliminate code execution vulnerability
     case 'find':
       return await findElements(args);
     case 'form_input':
@@ -428,24 +428,8 @@ async function scroll(args) {
   };
 }
 
-// Execute JavaScript
-async function executeJs(args) {
-  const tab = await getTab(args.tabId);
-  const { code } = args;
-
-  const results = await browser.tabs.executeScript(tab.id, { code });
-
-  let resultText;
-  try {
-    resultText = JSON.stringify(results[0], null, 2);
-  } catch {
-    resultText = String(results[0]);
-  }
-
-  return {
-    content: [{ type: 'text', text: resultText || 'undefined' }]
-  };
-}
+// Security: executeJs function removed to eliminate code execution vulnerability
+// This tool allowed arbitrary code execution which is a security risk
 
 // Find elements
 async function findElements(args) {

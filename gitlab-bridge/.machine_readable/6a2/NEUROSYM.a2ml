@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+#
+# Converted from .scm format
+
+# SPDX-License-Identifier: PMPL-1.0-or-later
+
+[metadata]
+integration = []
+neural-layer = [
+  ["embeddings", "false"],
+  ["fine-tuning", "false"],
+]
+symbolic-layer = [
+  ["type", "scheme"],
+  ["reasoning", "deductive"],
+  ["verification", "formal"],
+]
+version = "1.0.0"
+
+

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // Claude Firefox MCP - Content Script Bridge
 // Injected into pages for DOM access
 
@@ -7,16 +8,8 @@
 
 // Listen for messages from background script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'EXECUTE_IN_PAGE') {
-    try {
-      // Execute the code in page context
-      const result = eval(message.code);
-      sendResponse({ success: true, result });
-    } catch (error) {
-      sendResponse({ success: false, error: error.message });
-    }
-    return true; // Async response
-  }
+  // Security: EXECUTE_IN_PAGE handler removed to eliminate eval vulnerability
+  // Code execution in page context is no longer supported
 
   if (message.type === 'GET_ELEMENT_AT') {
     const { x, y } = message;

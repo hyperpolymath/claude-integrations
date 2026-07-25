@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # Usage Guide
 
 > Comprehensive guide for using claude-firefox-lsp across VSCode, Neovim, and Emacs
@@ -471,4 +475,4 @@ user_pref("devtools.chrome.enabled", true);
 
 ## License
 
-PMPL-1.0-or-later
+MPL-2.0-or-later
