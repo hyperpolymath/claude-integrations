@@ -144,7 +144,10 @@ function startNewConversation() {
 
 function renderMessages() {
   const container = document.getElementById('messages');
-  container.innerHTML = '';
+  // Clear container safely
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
 
   for (const msg of messages) {
     const div = document.createElement('div');
@@ -173,7 +176,11 @@ function showTypingIndicator() {
   const indicator = document.createElement('div');
   indicator.className = 'message assistant typing-indicator';
   indicator.id = 'typing';
-  indicator.innerHTML = '<span></span><span></span><span></span>';
+  // Create typing indicator spans safely
+  for (let i = 0; i < 3; i++) {
+    const span = document.createElement('span');
+    indicator.appendChild(span);
+  }
   container.appendChild(indicator);
   container.scrollTop = container.scrollHeight;
 }

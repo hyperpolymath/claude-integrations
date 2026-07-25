@@ -133,7 +133,7 @@ async function executeToolCall(params) {
     click: click,
     type: typeText,
     scroll: scroll,
-    execute_js: executeJs,
+    // Security: execute_js tool removed to eliminate eval vulnerability
     find: findElements,
     form_input: formInput,
     tabs_list: tabsList,
@@ -384,21 +384,8 @@ async function scroll(args) {
   return { content: [{ type: 'text', text: `Scrolled ${direction}` }] };
 }
 
-// Execute JS
-async function executeJs(args) {
-  const tab = await getTab(args.tabId);
-  const results = await browser.scripting.executeScript({
-    target: { tabId: tab.id },
-    func: (code) => eval(code),
-    args: [args.code]
-  });
-
-  let text;
-  try { text = JSON.stringify(results[0]?.result, null, 2); }
-  catch { text = String(results[0]?.result); }
-
-  return { content: [{ type: 'text', text: text || 'undefined' }] };
-}
+// Security: executeJs function removed to eliminate eval vulnerability
+// This tool allowed arbitrary code execution which is a security risk
 
 // Find elements
 async function findElements(args) {

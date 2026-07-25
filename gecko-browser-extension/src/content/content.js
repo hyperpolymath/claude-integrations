@@ -13,22 +13,44 @@ function showResponseOverlay(text, isError = false) {
 
   const overlay = document.createElement("div");
   overlay.id = "claude-gecko-overlay";
-  overlay.innerHTML = `
-    <div class="claude-gecko-response ${isError ? 'error' : ''}">
-      <div class="claude-gecko-header">
-        <span class="claude-gecko-title">Claude</span>
-        <button class="claude-gecko-close" title="Close">&times;</button>
-      </div>
-      <div class="claude-gecko-content"></div>
-      <div class="claude-gecko-actions">
-        <button class="claude-gecko-copy" title="Copy to clipboard">Copy</button>
-      </div>
-    </div>
-  `;
+  
+  // Create overlay structure safely without innerHTML
+  const responseDiv = document.createElement("div");
+  responseDiv.className = `claude-gecko-response ${isError ? 'error' : ''}`;
+  
+  const headerDiv = document.createElement("div");
+  headerDiv.className = "claude-gecko-header";
+  
+  const titleSpan = document.createElement("span");
+  titleSpan.className = "claude-gecko-title";
+  titleSpan.textContent = "Claude";
+  headerDiv.appendChild(titleSpan);
+  
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "claude-gecko-close";
+  closeBtn.title = "Close";
+  closeBtn.textContent = "×";
+  headerDiv.appendChild(closeBtn);
+  
+  const contentDiv = document.createElement("div");
+  contentDiv.className = "claude-gecko-content";
+  contentDiv.textContent = text;
+  
+  const actionsDiv = document.createElement("div");
+  actionsDiv.className = "claude-gecko-actions";
+  
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "claude-gecko-copy";
+  copyBtn.title = "Copy to clipboard";
+  copyBtn.textContent = "Copy";
+  actionsDiv.appendChild(copyBtn);
+  
+  responseDiv.appendChild(headerDiv);
+  responseDiv.appendChild(contentDiv);
+  responseDiv.appendChild(actionsDiv);
+  overlay.appendChild(responseDiv);
 
   // Set content safely
-  const contentDiv = overlay.querySelector(".claude-gecko-content");
-  contentDiv.textContent = text;
 
   // Close button handler
   overlay.querySelector(".claude-gecko-close").addEventListener("click", removeOverlay);
