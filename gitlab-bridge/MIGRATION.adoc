@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
-= Migration Guide: TypeScript to ReScript
+= Migration Guide: TypeScript to AffineScript
 :toc:
 :toclevels: 3
 
 == Overview
 
-Claude GitLab Bridge has been migrated from TypeScript to ReScript, following the hyperpolymath language policy. This document explains the changes and how to use the new codebase.
+Claude GitLab Bridge has been migrated from TypeScript to AffineScript, following the hyperpolymath language policy. This document explains the changes and how to use the new codebase.
 
 == What Changed
 
@@ -18,7 +18,7 @@ Claude GitLab Bridge has been migrated from TypeScript to ReScript, following th
 
 |Language
 |TypeScript
-|ReScript
+|AffineScript
 
 |Runtime
 |Node.js
@@ -30,7 +30,7 @@ Claude GitLab Bridge has been migrated from TypeScript to ReScript, following th
 
 |Build Tool
 |tsc
-|rescript
+|affinescript
 
 |Module System
 |CommonJS/ESM
@@ -55,7 +55,7 @@ src/
 
 === Configuration Files
 
-* `rescript.json` - ReScript compiler configuration
+* `affinescript.json` - AffineScript compiler configuration
 * `deno.json` - Deno runtime and task configuration (replaces package.json scripts)
 * `package.json` - Still present for npm dependencies used by Deno
 
@@ -74,8 +74,8 @@ const bridge = new ClaudeGitLabBridge({
 })
 ----
 
-**New (ReScript):**
-[source,rescript]
+**New (AffineScript):**
+[source,affinescript]
 ----
 let bridge = Main.make(~config={
   gitlabToken: Env.gitlabToken,
@@ -98,8 +98,8 @@ try {
 }
 ----
 
-**New (ReScript):**
-[source,rescript]
+**New (AffineScript):**
+[source,affinescript]
 ----
 let result = await bridge->Main.analyzeIssue(~params)
 switch result {
@@ -119,8 +119,8 @@ interface IssueParams {
 }
 ----
 
-**New (ReScript):**
-[source,rescript]
+**New (AffineScript):**
+[source,affinescript]
 ----
 type issueParams = {
   projectId: string,
@@ -138,10 +138,10 @@ type issueParams = {
 curl -fsSL https://deno.land/install.sh | sh
 ----
 
-2. Install ReScript:
+2. Install AffineScript:
 [source,bash]
 ----
-deno install npm:rescript@^12.0.2
+deno install npm:affinescript@^12.0.2
 ----
 
 === Building the Project
@@ -151,7 +151,7 @@ deno install npm:rescript@^12.0.2
 # Clean build artifacts
 deno task clean
 
-# Build ReScript code
+# Build AffineScript code
 deno task build
 
 # Run in development mode
@@ -178,7 +178,7 @@ deno task test:watch
 
 The auth module has been restructured:
 
-[source,rescript]
+[source,affinescript]
 ----
 // Import auth types
 open Auth.Types
@@ -202,7 +202,7 @@ if permResult.allowed {
 
 === Bridge API
 
-[source,rescript]
+[source,affinescript]
 ----
 // Create bridge instance
 let bridge = Main.make(~config)
@@ -227,7 +227,7 @@ let _ = await bridge->Main.handleWebhook(~event={
 })
 ----
 
-== Benefits of ReScript
+== Benefits of AffineScript
 
 1. **Type Safety**: Stronger type system than TypeScript
 2. **No Runtime Exceptions**: Pattern matching ensures exhaustive handling
@@ -237,15 +237,15 @@ let _ = await bridge->Main.handleWebhook(~event={
 
 == Gradual Migration
 
-If you need to use both TypeScript and ReScript during transition:
+If you need to use both TypeScript and AffineScript during transition:
 
-1. ReScript compiles to clean JavaScript
+1. AffineScript compiles to clean JavaScript
 2. Compiled `.res.js` files can be imported from TypeScript
-3. Use `gentypeconfig` in `rescript.json` for TypeScript definitions
+3. Use `gentypeconfig` in `affinescript.json` for TypeScript definitions
 
 == Resources
 
-* https://rescript-lang.org/docs/manual/latest/introduction[ReScript Documentation]
+* https://affinescript-lang.org/docs/manual/latest/introduction[AffineScript Documentation]
 * https://deno.com/manual[Deno Manual]
 * link:CLAUDE.md[Project-specific guidelines]
 

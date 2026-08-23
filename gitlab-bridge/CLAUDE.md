@@ -31,7 +31,7 @@ The Claude GitLab Bridge enables:
 
 ### Code Style
 
-- Use ReScript for type safety (TypeScript is banned per the
+- Use AffineScript for type safety (TypeScript is banned per the
   hyperpolymath language policy in `.claude/CLAUDE.md`).
 - Run on Deno (Node.js / npm / Bun are banned).
 - Follow functional programming principles where appropriate
@@ -143,8 +143,8 @@ Pinned in `deno.json`'s `imports` map (no `package.json`).
 
 ### Core Dependencies
 - Deno runtime
-- ReScript compiler (in-source, emits `.res.js`)
-- `@rescript/core` standard library
+- AffineScript compiler (in-source, emits `.res.js`)
+- `@affinescript/core` standard library
 - `@anthropic-ai/sdk` for Claude integration
 - `express` for HTTP server (Deno-compatible npm specifier)
 - `zod` for runtime schema validation
@@ -152,7 +152,7 @@ Pinned in `deno.json`'s `imports` map (no `package.json`).
 
 ### Development Dependencies
 - Deno's built-in `deno fmt` / `deno lint` / `deno test`
-- ReScript bindings under `src/bindings/` for any external surface
+- AffineScript bindings under `src/bindings/` for any external surface
   the compiler doesn't ship with
 
 ## Resources

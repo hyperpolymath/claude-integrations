@@ -29,7 +29,7 @@ this project aims to follow [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- refactor: replace all TypeScript with ReScript across 3 sub-projects
+- refactor: replace all TypeScript with AffineScript across 3 sub-projects
 
 ### Documentation
 

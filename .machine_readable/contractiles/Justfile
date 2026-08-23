@@ -38,7 +38,7 @@ build-gecko-extension:
 lint-gecko-extension:
 	cd gecko-browser-extension && web-ext lint 2>/dev/null || echo "Install web-ext: npm i -g web-ext"
 
-# --- GitLab Bridge (ReScript/Deno) ---
+# --- GitLab Bridge (AffineScript/Deno) ---
 
 # Build the GitLab Bridge component
 build-gitlab-bridge:

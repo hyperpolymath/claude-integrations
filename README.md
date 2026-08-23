@@ -21,7 +21,7 @@ across browsers and services.
 | firefox-lsp/ | LSP implementation for Firefox browser automation via Marionette protocol | Elixir |
 | firefox-mcp/ | Model Context Protocol server for Firefox browser control | Deno / JavaScript |
 | gecko-browser-extension/ | Browser extension for Gecko-based browsers (Firefox, Thunderbird, SeaMonkey) | JavaScript / WebExtensions API |
-| gitlab-bridge/ | Bridge between Claude AI and GitLab for developer productivity | ReScript / Deno |
+| gitlab-bridge/ | Bridge between Claude AI and GitLab for developer productivity | AffineScript / Deno |
 | mozilla-extension/ | Claude AI assistant extension for Mozilla products | JavaScript / WebExtensions API |
 
 # Getting Started

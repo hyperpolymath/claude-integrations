@@ -21,14 +21,14 @@
     (rule "SCM files ONLY in .machine_readable/ - NEVER in repository root")
     (rule "License is PMPL-1.0-or-later")
     (rule "Each component directory is self-contained with its own README")
-    (rule "No TypeScript - use ReScript or Deno JavaScript")
+    (rule "No TypeScript - use AffineScript or Deno JavaScript")
     (rule "No npm/bun - use Deno where JS runtime needed"))
 
   (structure
     (component "firefox-lsp" "LSP for Firefox via Marionette" "Elixir")
     (component "firefox-mcp" "MCP server for Firefox control" "Deno")
     (component "gecko-browser-extension" "Gecko browser extension" "JavaScript")
-    (component "gitlab-bridge" "GitLab integration bridge" "ReScript")
+    (component "gitlab-bridge" "GitLab integration bridge" "AffineScript")
     (component "mozilla-extension" "Mozilla products extension" "JavaScript"))
 
   (lifecycle
