@@ -23,7 +23,7 @@ Claude GitLab Bridge achieves **RSR GOLD** compliance, meeting or exceeding requ
 | 1. Repository Metadata & Standards | ✅ GOLD | 100% | All required files present |
 | 2. Documentation Quality | ✅ GOLD | 100% | Comprehensive docs in AsciiDoc |
 | 3. Development Infrastructure | ✅ GOLD | 100% | Complete dev tooling |
-| 4. Architecture & Code Quality | ✅ GOLD | 95% | ReScript with strict typing on Deno |
+| 4. Architecture & Code Quality | ✅ GOLD | 95% | AffineScript with strict typing on Deno |
 | 5. Testing & Quality Assurance | ✅ GOLD | 100% | Comprehensive test suite |
 | 6. Build & Release | ✅ GOLD | 100% | Automated builds |
 | 7. Security | ✅ GOLD | 100% | Security-first approach |
@@ -53,7 +53,7 @@ All required files are present and properly formatted:
 - ✅ `.gitignore` - Ignore patterns
 - ✅ `deno.json` - Deno runtime config + import map (the package
       manifest; `package.json` is banned)
-- ✅ `rescript.json` - ReScript compiler config
+- ✅ `affinescript.json` - AffineScript compiler config
 - ✅ `Justfile` - Build automation recipes
 
 ### SPDX Compliance ✅
@@ -147,9 +147,9 @@ RSR requires AsciiDoc format for formal documentation:
 
 ### Language Choice ✅
 
-- ✅ ReScript for type safety (TypeScript is banned per the
+- ✅ AffineScript for type safety (TypeScript is banned per the
      hyperpolymath language policy in `.claude/CLAUDE.md`)
-- ✅ Strict compiler settings (`rescript.json` `warnings.error`)
+- ✅ Strict compiler settings (`affinescript.json` `warnings.error`)
 - ✅ Explicit type annotations / sound inference
 - ✅ No banned-language artefacts (no `.ts`, no `package.json`)
 
@@ -159,7 +159,7 @@ Actual structure:
 ```
 src/
 ├── auth/         # Authentication, rate-limiting, webhook validation
-├── bindings/     # ReScript bindings (Anthropic, Express, Crypto, …)
+├── bindings/     # AffineScript bindings (Anthropic, Express, Crypto, …)
 ├── config/       # Multi-repo configuration
 ├── forges/       # Forge adapters (GitLab, GitHub, Gitea, SourceHut)
 ├── services/     # Business logic (e.g. MR review)
@@ -194,7 +194,7 @@ src/
 
 - ✅ `deno lint` (no ESLint — npm is banned)
 - ✅ `deno fmt` for formatting (no Prettier)
-- ✅ ReScript compiler enforces strictness via `bsc-flags`
+- ✅ AffineScript compiler enforces strictness via `bsc-flags`
 - ✅ Pre-commit hooks enforce standards
 - ✅ `format`, `lint` recipes available in the `Justfile`
 
@@ -204,8 +204,8 @@ src/
 
 ### Build System ✅
 
-- ✅ ReScript compilation (`rescript build`) — emits `*.res.js`
-     in-source per `rescript.json`'s `package-specs`
+- ✅ AffineScript compilation (`affinescript build`) — emits `*.res.js`
+     in-source per `affinescript.json`'s `package-specs`
 - ✅ Deno consumes the emitted JS directly; no bundler step
 - ✅ Development and production builds
 - ✅ `clean`, `build`, `clean-all` commands
@@ -406,7 +406,7 @@ just validate
 # Individual checks
 just lint          # Code quality (deno lint)
 just test          # Test suite (deno test)
-just check         # Type-check the compiled ReScript output
+just check         # Type-check the compiled AffineScript output
 just format-check  # Code formatting (deno fmt --check)
 ```
 
@@ -484,7 +484,7 @@ claude-gitlab-bridge/
 ├── .gitattributes                        # Git attributes
 ├── .gitignore                            # Git ignore patterns
 ├── deno.json                             # Deno runtime config + import map
-├── rescript.json                         # ReScript compiler config
+├── affinescript.json                         # AffineScript compiler config
 ├── Justfile                              # Build automation
 ├── .well-known/
 │   ├── security.txt                      # RFC 9116

@@ -8,7 +8,7 @@ v2.0.0, 2025-01-23
 
 == Executive Summary
 
-All requested features for the Claude GitLab Bridge have been successfully implemented in ReScript. The project has been fully converted from TypeScript to ReScript, following the hyperpolymath language policy, with all roadmap items completed.
+All requested features for the Claude GitLab Bridge have been successfully implemented in AffineScript. The project has been fully converted from TypeScript to AffineScript, following the hyperpolymath language policy, with all roadmap items completed.
 
 == Completed Features
 
@@ -18,7 +18,7 @@ All requested features for the Claude GitLab Bridge have been successfully imple
 |===
 |Feature |Status |Notes
 
-|TypeScript to ReScript conversion
+|TypeScript to AffineScript conversion
 |✅ Complete
 |All source files converted with proper type safety
 
@@ -36,7 +36,7 @@ All requested features for the Claude GitLab Bridge have been successfully imple
 
 |Build system
 |✅ Complete
-|ReScript compiler + Deno tasks configured
+|AffineScript compiler + Deno tasks configured
 |===
 
 === ✅ Merge Request Review Automation (100%)
@@ -192,14 +192,14 @@ All requested features for the Claude GitLab Bridge have been successfully imple
 
 === Documentation Files (3 files)
 
-- `README.adoc` - Updated with ReScript examples
-- `MIGRATION.adoc` - TypeScript to ReScript migration guide
+- `README.adoc` - Updated with AffineScript examples
+- `MIGRATION.adoc` - TypeScript to AffineScript migration guide
 - `WORK-SUMMARY.adoc` - Detailed work summary
 - `COMPLETION-REPORT.adoc` - This file
 
 === Configuration Files (2 files)
 
-- `rescript.json` - ReScript compiler configuration
+- `affinescript.json` - AffineScript compiler configuration
 - `deno.json` - Deno runtime and tasks (the package manifest;
   `package.json` was removed as a follow-up — npm is banned)
 
@@ -207,7 +207,7 @@ All requested features for the Claude GitLab Bridge have been successfully imple
 
 === Language & Runtime
 
-**ReScript Benefits:**
+**AffineScript Benefits:**
 - ✅ Stronger type safety than TypeScript
 - ✅ No runtime exceptions (Result types)
 - ✅ Exhaustive pattern matching
@@ -252,9 +252,9 @@ All requested features for the Claude GitLab Bridge have been successfully imple
 - Analytics and reporting
 
 **Recommendation:** Implement using:
-- **Frontend**: ReScript + React
+- **Frontend**: AffineScript + React
 - **Backend**: Current Deno/Express API
-- **State**: ReScript stores with React hooks
+- **State**: AffineScript stores with React hooks
 - **Styling**: TailwindCSS or similar
 
 == Build & Development
@@ -269,7 +269,7 @@ curl -fsSL https://deno.land/install.sh | sh
 # Install dependencies
 deno install
 
-# Build ReScript
+# Build AffineScript
 deno task build
 
 # Run development server
@@ -294,7 +294,7 @@ deno task lint
 |Total source files
 |23
 
-|Lines of ReScript
+|Lines of AffineScript
 |~3,500
 
 |Modules
@@ -317,7 +317,7 @@ deno task lint
 
 === Unit Tests (Recommended)
 
-[source,rescript]
+[source,affinescript]
 ----
 // src/auth/__tests__/TokenValidator_test.res
 let testValidateToken = () => {
@@ -330,7 +330,7 @@ let testValidateToken = () => {
 
 Test forge adapters with real API calls (or mocked):
 
-[source,rescript]
+[source,affinescript]
 ----
 // src/forges/__tests__/GitLabAdapter_test.res
 let testGetIssue = async () => {

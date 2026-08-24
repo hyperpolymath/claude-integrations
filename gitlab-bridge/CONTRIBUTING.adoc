@@ -23,13 +23,13 @@ Thank you for your interest in contributing to Claude GitLab Bridge! This guide 
 
 * Deno 1.40+ (Node.js / npm / Bun are banned per the
   hyperpolymath language policy)
-* `rescript` (the ReScript compiler — fetched as an npm specifier
+* `affinescript` (the AffineScript compiler — fetched as an npm specifier
   through `deno.json`)
 * Git
-* Code editor (VS Code recommended; install the ReScript extension)
+* Code editor (VS Code recommended; install the AffineScript extension)
 * GitLab account for testing
-* Basic knowledge of ReScript (the
-  https://rescript-lang.org/docs/manual/v11.0.0/introduction[official tutorial]
+* Basic knowledge of AffineScript (the
+  https://affinescript-lang.org/docs/manual/v11.0.0/introduction[official tutorial]
   is enough — TypeScript familiarity transfers)
 
 === Setup
@@ -121,9 +121,9 @@ git checkout -b feature/your-feature-name
 
 === 3. Make Changes
 
-==== ReScript Code Style
+==== AffineScript Code Style
 
-[source,rescript]
+[source,affinescript]
 ----
 // ✅ Good: clear names, sound types via inference + annotations
 let parseGitLabUrl = (url: string): result<RepoContext.t, ParseError.t> => {

@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: MPL-2.0
 # Claude GitLab Bridge — build automation
 #
-# Stack: ReScript (sources) + Deno (runtime + task runner). All recipes
-# delegate to `deno task <name>` (see deno.json) or `rescript ...`.
+# Stack: AffineScript (sources) + Deno (runtime + task runner). All recipes
+# delegate to `deno task <name>` (see deno.json) or `affinescript ...`.
 # No npm / Node — see hyperpolymath language policy.
 
 # Default — list all recipes.
@@ -11,17 +11,17 @@ default:
 
 # === Development ===
 
-# Build ReScript sources (emits *.res.js next to *.res, in-source).
+# Build AffineScript sources (emits *.res.js next to *.res, in-source).
 build:
-    rescript build
+    affinescript build
 
 # Watch + run dev server (deno task dev → src/Main.res.js).
 dev:
     deno task dev
 
-# Clean ReScript build artefacts.
+# Clean AffineScript build artefacts.
 clean:
-    rescript clean
+    affinescript clean
 
 # Full clean.
 clean-all: clean
@@ -136,25 +136,25 @@ branch name:
 
 # === Release ===
 
-# Bump version (patch) — edits rescript.json (the canonical version source).
+# Bump version (patch) — edits affinescript.json (the canonical version source).
 bump-patch:
-    @echo "Current version: $(jq -r .version rescript.json)"
-    @new=$(jq -r '.version | split(".") | [.[0], .[1], (.[2] | tonumber + 1 | tostring)] | join(".")' rescript.json) && \
-        jq --arg v "$$new" '.version = $$v' rescript.json > rescript.json.tmp && mv rescript.json.tmp rescript.json && \
+    @echo "Current version: $(jq -r .version affinescript.json)"
+    @new=$(jq -r '.version | split(".") | [.[0], .[1], (.[2] | tonumber + 1 | tostring)] | join(".")' affinescript.json) && \
+        jq --arg v "$$new" '.version = $$v' affinescript.json > affinescript.json.tmp && mv affinescript.json.tmp affinescript.json && \
         echo "New version: $$new"
 
 # Bump version (minor).
 bump-minor:
-    @echo "Current version: $(jq -r .version rescript.json)"
-    @new=$(jq -r '.version | split(".") | [.[0], (.[1] | tonumber + 1 | tostring), "0"] | join(".")' rescript.json) && \
-        jq --arg v "$$new" '.version = $$v' rescript.json > rescript.json.tmp && mv rescript.json.tmp rescript.json && \
+    @echo "Current version: $(jq -r .version affinescript.json)"
+    @new=$(jq -r '.version | split(".") | [.[0], (.[1] | tonumber + 1 | tostring), "0"] | join(".")' affinescript.json) && \
+        jq --arg v "$$new" '.version = $$v' affinescript.json > affinescript.json.tmp && mv affinescript.json.tmp affinescript.json && \
         echo "New version: $$new"
 
 # Bump version (major).
 bump-major:
-    @echo "Current version: $(jq -r .version rescript.json)"
-    @new=$(jq -r '.version | split(".") | [(.[0] | tonumber + 1 | tostring), "0", "0"] | join(".")' rescript.json) && \
-        jq --arg v "$$new" '.version = $$v' rescript.json > rescript.json.tmp && mv rescript.json.tmp rescript.json && \
+    @echo "Current version: $(jq -r .version affinescript.json)"
+    @new=$(jq -r '.version | split(".") | [(.[0] | tonumber + 1 | tostring), "0", "0"] | join(".")' affinescript.json) && \
+        jq --arg v "$$new" '.version = $$v' affinescript.json > affinescript.json.tmp && mv affinescript.json.tmp affinescript.json && \
         echo "New version: $$new"
 
 # === Utilities ===
@@ -162,7 +162,7 @@ bump-major:
 # Count lines of code.
 loc:
     @echo "=== Lines of Code ==="
-    @echo "ReScript:"
+    @echo "AffineScript:"
     @find src -name "*.res" -exec wc -l {} + 2>/dev/null | tail -1 || echo "0"
     @echo "Tests:"
     @find tests -name "*.res" -exec wc -l {} + 2>/dev/null | tail -1 || echo "0"
@@ -173,7 +173,7 @@ loc:
 stats:
     @echo "=== Project Statistics ==="
     @echo "Total files: $(find . -type f ! -path './.git/*' | wc -l)"
-    @echo "ReScript files: $(find src -name '*.res' 2>/dev/null | wc -l)"
+    @echo "AffineScript files: $(find src -name '*.res' 2>/dev/null | wc -l)"
     @echo "Test files: $(find tests -name '*.res' 2>/dev/null | wc -l)"
     @echo "Documentation files: $(find . -name '*.md' -o -name '*.adoc' | wc -l)"
     @just loc

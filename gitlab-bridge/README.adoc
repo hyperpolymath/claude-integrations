@@ -40,7 +40,7 @@ git clone https://github.com/hyperpolymath/claude-integrations.git
 cd claude-integrations/gitlab-bridge
 
 = Build (Deno fetches deps from deno.json on first run)
-just build         # rescript build → emits *.res.js
+just build         # affinescript build → emits *.res.js
 
 = Configure environment
 cp .env.example .env
@@ -81,8 +81,8 @@ Required scopes:
 
 === Basic Example
 
-```rescript
-// ReScript — see src/Main.res for the entry point
+```affinescript
+// AffineScript — see src/Main.res for the entry point
 let bridge = ClaudeGitLabBridge.make({
   gitlabToken: Env.required("GITLAB_TOKEN"),
   anthropicKey: Env.required("ANTHROPIC_API_KEY"),
@@ -141,7 +141,7 @@ Configure GitLab webhooks to point to your deployment:
 === Development Workflow
 
 ```bash
-= Build the ReScript sources
+= Build the AffineScript sources
 just build
 
 = Run in development mode (watches the compiled JS)
@@ -169,13 +169,13 @@ just check
 gitlab-bridge/
 ├── src/
 │   ├── auth/         # Authentication, rate-limiting, webhook validation
-│   ├── bindings/     # ReScript bindings (Anthropic, Express, Crypto, …)
+│   ├── bindings/     # AffineScript bindings (Anthropic, Express, Crypto, …)
 │   ├── config/       # Multi-repo configuration
 │   ├── forges/       # Forge adapters (GitLab, GitHub, Gitea, SourceHut)
 │   ├── services/     # Business logic
 │   ├── templates/    # Prompt templates
 │   └── Main.res      # Entry point
-├── tests/            # ReScript tests (deno test runner)
+├── tests/            # AffineScript tests (deno test runner)
 ├── docs/             # Documentation
 └── .well-known/      # Standard metadata files
 ```
@@ -251,7 +251,7 @@ See [SECURITY.md](SECURITY.md) for full policy.
 
 Main class for interacting with the bridge.
 
-```rescript
+```affinescript
 // API surface (see src/Main.res for the actual signatures)
 module ClaudeGitLabBridge: {
   type t

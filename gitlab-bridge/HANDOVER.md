@@ -77,11 +77,11 @@ claude-gitlab-bridge/
 
 - Runtime: Deno 1.40+ (Node.js / npm / Bun are banned per the
   hyperpolymath language policy)
-- Languages: ReScript (sole — TypeScript is banned and was retired
+- Languages: AffineScript (sole — TypeScript is banned and was retired
   in the 2.0.0 migration; see `MIGRATION.adoc`)
 - Packages: pinned in `deno.json`'s `imports` map
   (`@anthropic-ai/sdk`, `express`, `zod`, `dotenv`,
-  `rescript`, `@rescript/core`)
+  `affinescript`, `@affinescript/core`)
 - Optional: Redis (for caching)
 
 ## State Management
@@ -146,7 +146,7 @@ The project integrates with:
 
 ### Language Policy (per RSR)
 
-- **Sole language**: ReScript (TypeScript is banned per the
+- **Sole language**: AffineScript (TypeScript is banned per the
   hyperpolymath language policy)
 - **Sole runtime**: Deno (Node.js / npm / Bun are banned)
 - **Banned**: TypeScript, Python, Ruby, Perl, Go, Java, Kotlin, Swift
@@ -174,7 +174,7 @@ The project integrates with:
 
 ## Next Steps
 
-1. Define ReScript interfaces for core types
+1. Define AffineScript interfaces for core types
 2. Implement GitLab API client wrapper
 3. Set up test infrastructure with mocking
 4. Implement command generation logic
