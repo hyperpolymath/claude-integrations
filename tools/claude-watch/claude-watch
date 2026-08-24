@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# claude-watch - Estate-wide AI background-task dashboard
+# Discovers active AI-session tracker files under /tmp/ and surfaces them.
+
+set -e
+
+MODE="dashboard"
+TARGET_FILE=""
+
+show_help() {
+    cat << EOF
+claude-watch - Estate-wide AI background-task dashboard
+
+Usage:
+  claude-watch              # dashboard (default) — refreshes every 2s via watch(1)
+  claude-watch -t           # tail mode — streams new lines from all discovered trackers
+  claude-watch -f PATH      # watch a specific file
+  claude-watch -l           # list candidates and exit (no follow)
+  claude-watch -h           # help
+EOF
+    exit 0
+}
+
+while getopts "htlf:" opt; do
+    case ${opt} in
+        h) show_help ;;
+        t) MODE="tail" ;;
+        l) MODE="list" ;;
+        f) MODE="file"; TARGET_FILE="$OPTARG" ;;
+        *) show_help ;;
+    esac
+done
+
+find_candidates() {
+    # Find files matching patterns in /tmp (max depth 2) modified in last 10 mins
+    find /tmp -maxdepth 2 -type f -mmin -10 \( -name "*progress.log" -o -name "*_results.tsv" -o -name "*results.tsv" -o -name "*.out" \) 2>/dev/null
+}
+
+dashboard() {
+    clear
+    echo "============================================================"
+    echo " claude-watch dashboard - $(date)"
+    echo "============================================================"
+    
+    candidates=$(find_candidates)
+    if [ -z "$candidates" ]; then
+        echo "No active AI tasks found in /tmp (last 10 mins)."
+        return
+    fi
+
+    for file in $candidates; do
+        echo ""
+        echo "--- File: $file ---"
+        if [[ "$file" == *"results.tsv" ]]; then
+            # Canonical outcome breakdown (column 4)
+            echo "Outcomes Summary:"
+            cut -f4 "$file" 2>/dev/null | sort | uniq -c || echo "  (error reading outcomes)"
+        else
+            # Last 3 lines
+            tail -n 3 "$file" 2>/dev/null || echo "  (error reading file)"
+        fi
+    done
+}
+
+if [ "$MODE" = "file" ]; then
+    if [ ! -f "$TARGET_FILE" ]; then
+        echo "Error: File $TARGET_FILE not found."
+        exit 1
+    fi
+    watch -n 2 "tail -n 20 $TARGET_FILE"
+elif [ "$MODE" = "list" ]; then
+    find_candidates
+elif [ "$MODE" = "tail" ]; then
+    candidates=$(find_candidates)
+    if [ -z "$candidates" ]; then
+        echo "No active AI tasks found to tail."
+        exit 0
+    fi
+    # Use tail -f on all discovered files
+    # shellcheck disable=SC2086
+    tail -f $candidates
+else
+    # default dashboard mode
+    export -f find_candidates dashboard
+    watch -n 2 -c '
+    clear
+    echo "============================================================"
+    echo " claude-watch dashboard - $(date)"
+    echo "============================================================"
+    
+    candidates=$(find /tmp -maxdepth 2 -type f -mmin -10 \( -name "*progress.log" -o -name "*_results.tsv" -o -name "*results.tsv" -o -name "*.out" \) 2>/dev/null)
+    if [ -z "$candidates" ]; then
+        echo "No active AI tasks found in /tmp (last 10 mins)."
+        exit 0
+    fi
+
+    for file in $candidates; do
+        echo ""
+        echo -e "\033[1;36m--- File: $file ---\033[0m"
+        if [[ "$file" == *"results.tsv" ]]; then
+            echo "Outcomes Summary:"
+            cut -f4 "$file" 2>/dev/null | sort | uniq -c || echo "  (error reading outcomes)"
+        else
+            tail -n 3 "$file" 2>/dev/null || echo "  (error reading file)"
+        fi
+    done
+    '
+fi
