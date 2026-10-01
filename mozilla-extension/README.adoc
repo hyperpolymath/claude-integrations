@@ -4,7 +4,7 @@
 
 This project must declare **MPL-2.0-or-later** for platform/tooling compatibility.
 
-Philosophy: **Palimpsest**. The MPL-2.0 (PMPL) text is provided in `license/MPL-2.0.txt`, and the canonical source is the palimpsest-license repository.
+Philosophy: **Palimpsest**. Licensed under MPL-2.0; the full text is in `license/MPL-2.0.txt`.
 = Claude for Mozilla
 :toc:
 :icons: font

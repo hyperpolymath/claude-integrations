@@ -6,7 +6,7 @@ SPDX-FileCopyrightText: 2025-2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 Unified monorepo consolidating all Claude browser and service
 integration projects.
 
-[![License](https://img.shields.io/badge/license-PMPL--1.0--or--later-blue.svg)](https://github.com/hyperpolymath/palimpsest-license)
+[![License](https://img.shields.io/badge/license-MPL--2.0-blue.svg)](https://www.mozilla.org/MPL/2.0/)
 
 # Overview
 
@@ -51,7 +51,7 @@ just build-mozilla-extension
     ├── mozilla-extension/       # Mozilla products extension
     ├── .machine_readable/       # SCM checkpoint files
     ├── Justfile                 # Build recipes
-    ├── LICENSE                  # PMPL-1.0-or-later
+    ├── LICENSE                  # MPL-2.0
     └── README.adoc              # This file
 
 # History
@@ -78,5 +78,5 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 Copyright © 2024-2026 Jonathan D.A. Jewell
 \<[jonathan.jewell@open.ac](jonathan.jewell@open.ac).uk\>
 
-Licensed under the Palimpsest License, Version 1.0 or later. See
+Licensed under the Mozilla Public License 2.0 (MPL-2.0). See
 [LICENSE](LICENSE) for the full license text.
