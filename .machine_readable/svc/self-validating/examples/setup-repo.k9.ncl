@@ -132,7 +132,7 @@ K9!
     "add-license" = {
       description = "Add MPL-2.0 license",
       commands = [
-        "curl -sL https://www.mozilla.org/media/MPL/2.0/index.txt -o LICENSE",
+        "curl -fsSL https://www.mozilla.org/media/MPL/2.0/index.txt -o LICENSE",
         "echo '✓ License added'",
       ],
     },
