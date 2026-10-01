@@ -9,9 +9,7 @@ workflows:
     '.github/workflows/labels.yml': []
     '.github/workflows/push-email-notify.yml':
         - 'hyperpolymath/smtp-notify-action@v0.3.0'
-    '.github/workflows/secret-scanner.yml':
-        - 'actions/checkout@v7.0.1'
-        - 'trufflesecurity/trufflehog@main'
+    '.github/workflows/secret-scanner.yml': []
 dependencies:
     'actions/checkout@v7.0.1':
         ref: 'v7.0.1'
