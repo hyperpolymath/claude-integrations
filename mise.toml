@@ -1,57 +1,54 @@
+# SPDX-License-Identifier: MPL-2.0
+# SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+#
+# Toolchain for claude-integrations — monorepo with Elixir, Deno/JS, AffineScript
+# Estate policy: Bun is primary JS runtime (Deno retired per 2026-08-26 but still used here for transition),
+# no Python/Go/Java/Nix. See hyperpolymath/standards 3-practice/provisioning.
+
+[settings]
+lockfile = true
+
 [tools]
-# Language runtimes
-node = "latest"
-python = "latest"
+# Core
+just = "latest"
+git = "latest"
+shellcheck = "latest"
+
+# Runtimes — allowed per estate language policy
+# Elixir (firefox-lsp)
+elixir = "latest"
+erlang = "latest"
+
+# Rust (potential model-router, etc)
 rust = "latest"
-go = "latest"
-zig = "latest"
-java = "latest"
-bun = "latest"
-denojs = "latest"
-
-# Package managers
-npm = "latest"
-yarn = "latest"
-pnpm = "latest"
-pip = "latest"
 cargo = "latest"
-go-task = "latest"
 
-# Formatting & Linting
-gofmt = "latest"
-black = "latest"
-isort = "latest"
-ruff = "latest"
+# Zig (FFI)
+zig = "latest"
+
+# JS runtimes — Bun primary, Deno for legacy (retired but still in use), Node for extensions
+bun = "latest"
+deno = "latest"
+node = "latest"
+
+# Package managers — Bun primary
+# npm/yarn/pnpm only where Bun cannot (browser extensions)
+# pnpm kept for compatibility, npm as last resort
+
+# Formatting & Linting (allowed)
 prettier = "latest"
 shfmt = "latest"
 stylua = "latest"
 
-# Build tools
+# Build tools (allowed)
 cmake = "latest"
-make = "latest"
 ninja = "latest"
 
-# Shell tools
-git = "latest"
-gnu-sed = "latest"
-gnu-tar = "latest"
-gnu-grep = "latest"
-
-# Testing
-vitest = "latest"
-pytest = "latest"
-jest = "latest"
-
 [env]
-# Common environment variables
 NODE_ENV = "development"
-PYTHONDONTWRITEBYTECODE = "1"
-PYTHONUNBUFFERED = "1"
 
-# Task runner alias
 [alias]
-task = "go-task"
-build = "cargo build --release || npm run build || go build"
-test = "cargo test || npm test || go test ./..."
-lint = "ruff check . || prettier --check . || black --check ."
-fmt = "ruff format . || prettier --write . || black ."
+build = "cargo build --release || bun run build || npm run build"
+test = "cargo test || bun test || npm test"
+lint = "prettier --check . || just lint-all"
+fmt = "prettier --write . || just fmt"
