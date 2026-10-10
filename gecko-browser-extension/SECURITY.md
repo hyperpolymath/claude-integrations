@@ -466,13 +466,4 @@ Committed to this repository with a clear commit message
 Noted in the changelog
 Announced via GitHub Discussions (for major changes)
 
-Thank you for helping keep terrapin-ssg and its users safe.
-
----
-**<followup encodedFollowup="%7B%22snippet%22%3A%22Key%20Improvements%22%2C%22question%22%3A%22Can%20you%20elaborate%20on%20how%20the%20use%20of%20tables%20and%20code%20blocks%20enhances%20clarity%20in%20the%20policy%3F%22%2C%22id%22%3A%2251f36805-63e1-4fb8-9944-56dbeba85607%22%7D" />:**
-- **Structure:** Clear headers, tables for scope and timelines, and code blocks for commands.
-- **Clarity:** Simplified language, added examples, and emphasized <followup encodedFollowup="%7B%22snippet%22%3A%22actionable%20steps%22%2C%22question%22%3A%22What%20are%20some%20of%20the%20most%20critical%20actionable%20steps%20you%20included%20for%20vulnerability%20reporting%3F%22%2C%22id%22%3A%22eb079353-47d9-4531-89c6-5eb0f2271601%22%7D" />.
-- **Alignment:** Matched your project’s focus on open source, education, and verification (e.g., PGP, CVSS, CWE).
-- **Actionability:** Added <followup encodedFollowup="%7B%22snippet%22%3A%22direct%20links%20and%20explicit%20instructions%20for%20reporting%20and%20recognition%22%2C%22question%22%3A%22What%20are%20some%20examples%20of%20direct%20links%20or%20instructions%20you%20added%20to%20improve%20usability%3F%22%2C%22id%22%3A%22584b35a9-3d88-454c-b6d6-3bc60624656b%22%7D" />.
-
-Would you like any further refinements or additions, such as integrating your <followup encodedFollowup="%7B%22snippet%22%3A%22preferred%20licensing%20or%20verification%20standards%22%2C%22question%22%3A%22Which%20licensing%20or%20verification%20standards%20would%20you%20recommend%20for%20a%20project%20like%20this%3F%22%2C%22id%22%3A%22d3c8928c-d644-4c08-bbb2-e6999ea39ab6%22%7D" />?
+Thank you for helping keep this project and its users safe.

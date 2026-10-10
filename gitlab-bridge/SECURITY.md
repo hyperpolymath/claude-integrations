@@ -151,8 +151,8 @@ Sensitive configuration via environment variables:
 
 ```env
 # Required - Never commit these!
-GITLAB_TOKEN=glpat-xxxxxxxxxxxxxxxxxxxx
-ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxx
+GITLAB_TOKEN=glpat-xxxx
+ANTHROPIC_API_KEY=sk-ant-xxxx
 WEBHOOK_SECRET=your-webhook-secret-here
 ```
 
