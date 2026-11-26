@@ -29,14 +29,12 @@ zig = "latest"
 # JS runtimes — Bun primary, Deno for legacy (retired but still in use), Node for extensions
 bun = "latest"
 deno = "latest"
-node = "latest"
 
 # Package managers — Bun primary
 # npm/yarn/pnpm only where Bun cannot (browser extensions)
 # pnpm kept for compatibility, npm as last resort
 
 # Formatting & Linting (allowed)
-prettier = "latest"
 shfmt = "latest"
 stylua = "latest"
 
@@ -45,10 +43,9 @@ cmake = "latest"
 ninja = "latest"
 
 [env]
-NODE_ENV = "development"
 
 [alias]
-build = "cargo build --release || bun run build || npm run build"
-test = "cargo test || bun test || npm test"
-lint = "prettier --check . || just lint-all"
-fmt = "prettier --write . || just fmt"
+build = "cargo build --release || bun run build"
+test = "cargo test || bun test"
+lint = "bunx --no-install --bun prettier --check . || just lint-all"
+fmt = "bunx --no-install --bun prettier --write . || just fmt"
