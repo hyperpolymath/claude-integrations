@@ -47,5 +47,5 @@ ninja = "latest"
 [alias]
 build = "cargo build --release || bun run build"
 test = "cargo test || bun test"
-lint = "bunx --no-install --bun prettier --check . || just lint-all"
-fmt = "bunx --no-install --bun prettier --write . || just fmt"
+lint = "bun install --frozen-lockfile && bunx --no-install --bun prettier --check . || just lint-all"
+fmt = "bun install --frozen-lockfile && bunx --no-install --bun prettier --write . || just fmt"
