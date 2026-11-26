@@ -26,9 +26,8 @@ cargo = "latest"
 # Zig (FFI)
 zig = "latest"
 
-# JS runtimes — Bun primary, Deno for legacy (retired but still in use), Node for extensions
+# JS runtimes — Bun primary
 bun = "latest"
-deno = "latest"
 
 # Package managers — Bun primary
 # npm/yarn/pnpm only where Bun cannot (browser extensions)
@@ -44,8 +43,15 @@ ninja = "latest"
 
 [env]
 
-[alias]
-build = "cargo build --release || bun run build"
-test = "cargo test || bun test"
-lint = "bun install --frozen-lockfile && bunx --no-install --bun prettier --check . || just lint-all"
-fmt = "bun install --frozen-lockfile && bunx --no-install --bun prettier --write . || just fmt"
+[tasks.build]
+run = "cargo build --release || bun run build"
+
+[tasks.test]
+run = "cargo test || bun test"
+
+[tasks.lint]
+run = "bun install --frozen-lockfile && bunx --no-install --bun prettier --check . || just lint-all"
+
+[tasks.fmt]
+run = "bun install --frozen-lockfile && bunx --no-install --bun prettier --write . || just fmt"
+
