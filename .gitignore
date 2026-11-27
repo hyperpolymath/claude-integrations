@@ -87,7 +87,6 @@ package-lock.json
 **/package-lock.json
 bun.lockb
 yarn.lock
-pnpm-lock.yaml
 .npmrc
 
 # Agent & editor scaffolding (standards#68) — local-only, never committed
